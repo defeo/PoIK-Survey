@@ -1,0 +1,48 @@
+\tikzset{every picture/.style={line width=0.75pt}} %set default line width to 0.75pt        
+
+\begin{tikzpicture}[x=1cm,y=1cm,yscale=1,xscale=1]
+
+\coordinate (a) at ({sin(0)},{cos(0)});
+\coordinate (b) at ({sin(72)},{cos(72)});
+\coordinate (c) at ({sin(144)},{cos(144)});
+\coordinate (d) at ({sin(-144)},{cos(-144)});
+\coordinate (e) at ({sin(-72)},{cos(-72)});
+
+\draw (a) -- (b) -- (c) -- (d) -- (e) -- (a) ;
+
+\draw[fill = white] (a) circle [radius = 0.25 cm];
+\draw[fill = white] (b) circle [radius = 0.25 cm];
+\draw[fill = white] (c) circle [radius = 0.25 cm];
+\draw[fill = white] (d) circle [radius = 0.25 cm];
+\draw[fill = white] (e) circle [radius = 0.25 cm];
+
+\node at ({sin(0)},{cos(0)}){1};
+\node at ({sin(72)},{cos(72)}){2};
+\node at ({sin(144)},{cos(144)}){3};
+\node at ({sin(-144)},{cos(-144)}){4};
+\node at ({sin(-72)},{cos(-72)}){5};
+
+\node (arrow) at (3,0) {$\xrightarrow{\quad \quad \phi \quad \quad }$} ;
+
+
+\coordinate (A) at ({6+sin(0)},{cos(0)});
+\coordinate (D) at ({6+sin(72)},{cos(72)});
+\coordinate (B) at ({6+sin(144)},{cos(144)});
+\coordinate (E) at ({6+sin(-144)},{cos(-144)});
+\coordinate (C) at ({6+sin(-72)},{cos(-72)});
+
+\draw (A) -- (B) -- (C) -- (D) -- (E) -- (A) ;
+
+\draw[fill = white] (A) circle [radius = 0.25 cm];
+\draw[fill = white] (B) circle [radius = 0.25 cm];
+\draw[fill = white] (C) circle [radius = 0.25 cm];
+\draw[fill = white] (D) circle [radius = 0.25 cm];
+\draw[fill = white] (E) circle [radius = 0.25 cm];
+
+\node at (A){A};
+\node at (B){B};
+\node at (C){C};
+\node at (D){D};
+\node at (E){E};
+
+\end{tikzpicture}

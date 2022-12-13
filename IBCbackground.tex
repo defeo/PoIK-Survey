@@ -1,0 +1,343 @@
+\subsection{Elliptic curves and isogenies}
+\label{sec:EC-and-isogeny}
+
+An elliptic curve over a field $\F_q$ is a non-singular projective algebraic curve of genus 1 with a designated point that we call $\PO$. A typical example is the projective closure of the affine Montgomery model $y^2 = x(x^2 + Ax  + 1)$, where the point $\PO$ is the point at infinity.
+An elliptic curve is defined up to isomorphism by its $j$-invariant.
+
+An \emph{isogeny} $\phi : E_1 \to E_2$ (see Chapter 12 of Washington \cite{Was08} or Section III.4 of Silverman~\cite{Silverman}) is a morphism and has finite kernel. 
+Given a finite subgroup $G \subseteq E_1( \Fbar_q )$ there is a (unique separable) isogeny $\phi_G : E_1 \to E_2$ with kernel $G$, and it is possible to compute $\phi_G$ using V{\' e}lu formulae~\cite{Velu} in time \emph{linear} in $\#G$ using operations in $\F_{q^t}$, where $G$ is defined over $\F_{q^t}$.
+For more details see Proposition III.4.12 of Silverman~\cite{Silverman}, Section 12.3 of Washington~\cite{Was08}, or Section 25.1 of Galbraith~\cite{Gal12}.
+We sometimes write $E_2 = E_1 / G$. %\CP{can work with smaller extension fields using algorithm in Kohel's thesis} 
+
+
+
+The degree of an isogeny is its degree as a morphism of curves (see Section II.2 of Silverman~\cite{Silverman} or Section 12.2 of Washington~\cite{Was08}).
+A separable isogeny with kernel $G$ has degree equal to $\#G$.
+
+If $\phi_1 : E_1 \rightarrow E_2$
+and $\phi_2 : E_2 \rightarrow E_3$ are isogenies then
+$\deg( \phi_2 \circ \phi_1 ) = \deg( \phi_2 ) \deg( \phi_1 )$.
+
+
+
+\begin{theorem} 
+(Corollary III.4.11 of \cite{Silverman}; Theorem 9.6.18 of \cite{Gal12})
+Let $E_1, E_2, E_3$ be elliptic curves over $\F_q$
+and $\phi : E_1 \rightarrow E_2$, $\psi : E_1 \rightarrow E_3$
+isogenies over $\F_q$. Suppose $\ker(\phi) \subseteq \ker( \psi )$ and
+that $\psi$ is separable.
+Then there is a unique isogeny $\lambda : E_2 \rightarrow E_3$
+defined over $\F_q$ such that $\psi = \lambda \circ \phi$.
+\end{theorem}
+
+The above facts show that an isogeny $\phi_1 : E_1 \rightarrow E_2$ of composite degree can always be factored as the composition of isogenies of prime degree (see Theorem 25.1.2 of \cite{Gal12}). In many applications, this is the most efficient way to represent and compute an isogeny.
+
+Isogenies are naturally represented as rational maps between concrete models of elliptic curves; however for large degree isogenies this representation may not be efficient. When the degree is a smooth number one can instead represent the large degree isogeny as a composition of low degree isogenies.
+Alternatively, such an isogeny can be represented by a sequence of $j$-invariants that are the codomains of the successive (low degree) isogeny steps. 
+%
+Any isogeny can also alternatively be represented by its kernel, or more precisely a kernel generator. 
+%
+
+While computing a rational map representation of an isogeny of prime degree $\ell$ requires $O(\ell)$ time just to write the output, evaluating this isogeny on a domain point  can be done more efficiently with the so-called ``square root Vélu'' formulae~\cite{velusqrt}. %\WB{Reviewer suggests adding a reference to sqrt velu}\CP{done}
+
+
+
+We denote by $\# E( \F_q )$ the number of points on an elliptic curve $E$ (including $\PO$).
+The Tate isogeny theorem  states that if $E_1$ and $E_2$ are elliptic curves over $\F_q$ with $\#E_1(\F_q) = \#E_2(\F_q)$ then there is an isogeny $\phi_1 : E_1 \rightarrow E_2$ defined over $\F_q$.
+
+
+Setting $t = q + 1 - \#E(\F_q )$, then $|t| \le 2 \sqrt{q}$.
+An elliptic curve is called \emph{supersingular} if $p \mid t$, where $q$ is a power of the prime $p$, and is called \emph{ordinary} otherwise.
+It follows that $E$ is supersingular if $\#E(\F_q ) \equiv 1 \pmod{p} $, and in fact for supersingular curves one has $\#E( \F_{q^n}) \equiv 1 \pmod{p}$ for all $n \in \N$.
+
+
+\WB{reviewer says: Section 2.1 I think could use a little extra references to some of the statements; the crypto references are top notch but a Silverman here or there wouldn't be bad for the interested reader; same holds for section 2.2}
+\SG{DONE!}
+
+\subsection{Endomorphism rings and isogeny graphs}
+\label{sec:isog-graph}
+
+
+
+The endomorphism ring of $E$ (see Section III.9 of Silverman~\cite{Silverman}) is the set of isogenies  from $E$ to itself, together with the zero map $[0] : E \to E$ given by $[0](P) = \PO$.
+In other words
+\[
+   \End(E)  = \{ \phi : E \to E \} \cup \{ [0] \}.
+\]
+This is a ring where addition of isogenies is defined pointwise using the elliptic curve addition $(\phi_1 + \phi_2)(P) = \phi_1(P) + \phi_2(P)$ and multiplication is composition of isogenies.
+Note that $\Z \subset \End(E)$ from the map $n \mapsto [n]$.
+
+When $E$ is a supersingular curve then a theorem of Deuring states that $\End(E)$ is a maximal order in the quaternion algebra ramified at $p$ and infinity (see Theorem III.9.3 of~\cite{Silverman} or Theorem 42.1.9 of Voight~\cite{Voi21}).
+When $E$ is ordinary the situation is much simpler, as $\End(E)$ is an order in the imaginary quadratic field $\Q( \sqrt{t^2-4q})$.
+
+
+Our main focus in this survey is supersingular curves, as they are the ones currently used in cryptographic applications.
+
+For any supersingular elliptic curve $E$ in characteristic $p$ and any prime $\ell \ne p$, there are exactly $\ell+1$ isogenies of degree $\ell$ with $E$ as their domain. 
+\LDF{This sentence doesn't match quite well the ordinary / CSIDH case.}
+%
+To any prime numbers $p$ and $\ell$, one can associate a \emph{supersingular isogeny graph} where each vertex corresponds to a supersingular curve (up to isomorphism) and each edge to an isogeny of degree $\ell$ between the corresponding curves. This is an $\ell+1$ regular graph, and it is undirected except, at most, at two exceptional points.
+%
+In the supersingular case, the graph is Ramanujan, meaning it has optimal expansion properties (see Section 4 of~\cite{CGL}). The expansion properties imply that any two curves are connected by a path of length  $O(\log p)$, and that random walks on the graph quickly converge to the uniform distribution. \LDF{The stationary distribution is actually slightly different from uniform, except when $p=1\mod 12$. I'd write "stationary" instead of "uniform", but maybe do you think the word "stationary" is too mysterious?}
+\SG{Probably better to say ``uniform apart from at most 2 special vertices''}
+%
+All supersingular curves are defined over $\mathbb{F}_{p^2}$.
+%, and the graph is connected over $\mathbb{F}_{p^{12}}$. \CP{check this is the right extension} \LDF{Strange statement. Either the vertices are up to general isomorphism, and then the graph is connected over $\F_{p^2}$, or they are defined up to rational isomorphism, and then there are always at least two connected components.}
+
+
+%\develop{Isogeny graph and connectedness.
+%Expansion properties. 
+%Upper bounds on minimal degree of an isogeny between two curves (if they are connected by an isogeny).}
+
+Given two elliptic curves $(E_0, E_1 )$ over $
+\F_q$ that are isogenous over $\F_q$, there are infinitely many isogenies between them.
+%\develop{The set of all isogenies from $E_0$ to $E_1$: Size and structure.}
+In the ordinary case, where for simplicity we assume both curves have endomorphism ring being the maximal order in the imaginary quadratic field, the set of isogenies from $E_0$ to $E_1$ corresponds to an ideal class. In the supersingular case the set of isogenies from $E_0$ to $E_1$ corresponds to a rank 4 $\Z$-module in a quaternion algebra.
+
+
+When the endomorphism ring of an elliptic curve is known, one may instead represent an isogeny from that curve in terms of a module in the endomorphism ring, namely an ideal of a quadratic imaginary number field in the ordinary case, and a (left or right) ideal of a maximal order in a quaternion algebra in the supersingular case.
+%
+Modulo some restrictions on parameters (smooth or power-smooth norms, degree and orders), one can transform this representation into the other standard representations (sequences of $j$-invariants, or kernel generators) in polynomial-time, and vice versa.
+
+
+%\develop{How isogenies are represented:
+%degree is a product of powers of small primes.
+%(1) sequence of $j$-invariants; (2) kernel point(s). 
+%One can efficiently translate bwteen them.}
+
+%\develop{
+%Also more specific: (3) quaternion-land; (4) ideal class (CM).}
+
+
+
+
+\subsection{SIDH}\label{sec:SIDH}
+
+Supersingular Isogeny Diffie-Hellman (SIDH)~\cite{JDF11,DFJP14} is a key exchange protocol based on isogenies between supersingular curves defined over $\F_{p^2}$.
+It is the basis for SIKE~\cite{sike2017}, an isogeny based KEM that was submitted to the NIST post-quantum standardization process.
+Of course, due to recent cryptanalysis~\cite{CD22,MM22,Rob22} SIDH and SIKE are no longer considered secure.
+Nevertheless, it is necessary for some of the schemes mentioned in our paper to introduce some concepts from SIDH.
+
+
+The main technical ingredient of SIDH is a two-party protocol to securely construct a commutative square made of supersingular isogenies.
+These squares are used for the proofs of knowledge of supersingular isogenies in Section~\ref{sec:SIDH-setting}, but for the moment we shall describe SIDH.
+
+Let $p = 2^{n}  3^{m} f - 1 $ be a prime such that $2^{n} \approx 3^{m}$.
+Over $\F_{p^2}$, there exists an isogeny class of supersingular curves with group structure
+\[
+   E(\F_{p^2}) \simeq (\Z /(p + 1)\Z)^2 \simeq (\Z /2^n\Z)^2 \times (\Z / 3^m \Z)^2 \times (\Z / f \Z)^2.
+\]
+Let $E$ be one such curve. For example, choose the curve $y^2 = x^3 + x$ of $j$-invariant $1728$, which is always supersingular modulo  $p \equiv 3 \pmod{4}$. Furthermore, $\End(E)$ is known for this curve.
+
+Let $A \subset E[2^n]$ and $B \subset E[3^m]$ be cyclic groups of order $2^n, 3^m$, respectively.
+They define isogenies $\phi_A : E \to E/A$ and $\psi_B : E \to E/B$.
+The ``SIDH square'' on $(A,B)$ is the commutative diagram 
+%
+\begin{equation}
+    \label{eq:sidh-square}
+    \tikz[x=2.5cm,y=-1.5cm,baseline=-.75cm]{
+    \node (E0) at (0,0) {$E$};
+    \node (E1) at (1,0) {$E/A$};
+    \node (E2) at (0,1) {$E/B$};
+    \node (E3) at (1,1) {$E/\langle A, B\rangle$};
+    \draw[->] (E0) edge node[above] {$\phi_A$} (E1)
+    (E0) edge node[left] {$\psi_B$} (E2)
+    (E1) edge node[right] {$\psi_B'$} (E3)
+    (E2) edge node[above] {$\phi_A'$} (E3);
+    }
+\end{equation}
+where $\ker(\psi_B')  = \phi_A(B)$ and $\ker( \phi_A' ) = \psi_B(A)$.
+%
+We say that $(\phi_A,\phi_A')$ (and $(\psi_B,\psi_B')$) are ``parallel'' isogenies.
+
+\begin{definition}[Parallel isogenies]
+  Let $\phi : E_0 \to E_1$ and $\phi' : E_2 \to E_3$ be separable isogenies of degree $d$.
+  We say that $(\phi,\phi')$ are \emph{parallel with respect to a separable isogeny $\psi : E_0 \to E_2$} of degree coprime to $d$ if $\ker(\phi') = \psi(\ker(\phi))$.
+\end{definition}
+
+\begin{lemma}
+  Let $\phi : E_0 \to E_1$ and $\phi' : E_2 \to E_3$ be parallel with respect to some $\psi$, then there exists an isogeny $\psi' : E_1 \to E_3$ parallel to $\psi$ with respect to $\phi$, defined by $\ker(\psi') = \phi(\ker(\psi))$.
+\end{lemma}
+\begin{proof}
+  By comparing kernels it is clear that $\phi' \circ \psi = \psi' \circ \phi$, up to composing $\psi'$ with an isomorphism, and thus the image curve of $\psi'$ is $E_3$.
+  Then $\psi'$ is parallel to $\psi$ by definition. \qed
+\end{proof}
+
+Given generators for $A$ and $B$, the curves $E/A$ and $E/B$ can be efficiently computed using Vélu's formulae.
+The bottom-right curve $E/\langle A,B\rangle$ can then be computed in two ways as
+\begin{equation}
+  \label{eq:sidh-push}
+  (E/A)/\phi_A(B) \;\simeq\; E/\langle A,B\rangle \;\simeq\; (E/B)/\psi_B(A).
+\end{equation}
+This is as much as we need for defining proofs of knowledge of isogenies.
+% For SIDH, read on.
+
+\paragraph{Two-party construction of an SIDH square.}
+\LDF{Shall we completely remove this?}
+The goal in SIDH is to use $A$ and $B$ as the secrets of a key exchange, and $E/A$ and $E/B$ as the public keys.
+Then, $E/\langle A, B\rangle$ is used to derive the shared secret.
+Looking at Eq.~\eqref{eq:sidh-push}, though, there is not an obvious way to compute $E/\langle A,B\rangle$ without the knowledge of both secrets.
+
+The key idea in SIDH is to transmit some additional information along with $E/A$ and $E/B$.
+Let us describe how the party holding the secret $A$ (Alice) proceeds.
+Fix \emph{torsion bases} $\langle P_A, Q_A \rangle =  E[ 2^{n} ]$ and $\langle P_B, Q_B \rangle =  E[ 3^{m} ]$.
+Sample\footnote{This sampling is not uniform within the cyclic subgroups of $E[2^n]$, but is easier to implement, simplifies the exposition, and can be easily generalized.} $A$ as $A = \langle P_A + [\alpha] Q_A \rangle$ for some random $\alpha \in \Z/2^n\Z$.
+Alice computes and sends to Bob $(E/A, \phi_A(P_B), \phi_A(Q_B))$.
+Bob proceeds analogously.
+The extra points are sometimes called \emph{auxiliary points}.
+
+Upon receiving $(E/B, \psi_B(P_A), \psi_B(Q_A))$ from Bob, Alice computes
+\[\psi_B(A) = \langle \psi_B(P_A) + [\alpha]\psi_B(Q_A)\rangle \, ,\]
+obtaining $\ker(\phi_A')$.
+Then she computes $\phi_A'$, and finally $E/\langle A,B\rangle$.
+Bob proceeds analogously.
+
+%This key exchange scheme is secure against passive adversaries (i.e.\ adversaries who observe the messages between Alice and Bob but cannot change them) if it is difficult to recover $A$ from the knowledge of $(E/A, \phi_A(P_B), \phi_A(Q_B))$.
+%This problem was called CSSI in~\cite{JDF11}, it is equivalent to finding a witness for a statement in $\R[SIDH]$ defined previously.
+
+%\begin{definition}[Computational Supersingular Isogeny Problem (CSSI)]\label{def:cssi_prob} For fixed SIDH prime $p$, coprime integers $d,D$, base curve $E$, and $D$-torsion basis $P_B, Q_B \in E$, let $\phi_A : E \to E/A$ be an isogeny of degree $d$.
+%  Given an SIDH public key $(E/A, \phi_A(P_B), \phi_A(Q_B))$, find an isogeny $\chi : E \to E/A$ of degree $d$ mapping $(P_B,Q_B)$ to $(\phi_A(P_B), \phi_A(Q_B))$.
+% \end{definition}
+
+\paragraph{Other base fields.}
+The setup we presented above is the most common and the most efficient one for SIDH-like proofs of knowledge.
+However the paper that introduced SIDH also considered primes of the form $p = \ell_A^n \ell_B^m f \pm 1$ for any small primes $\ell_A,\ell_B$.
+A variant named B-SIDH~\cite{10.1007/978-3-030-64834-3_15} used primes such that $p^2 - 1 = Nf$, where $N$ is a sufficiently large smooth integer.
+Finally, variants of the SIDH key exchange designed to resist the recent attacks consider $p = 4N - 1$, where $N$ is a product of sufficiently many distinct small primes~\cite{cryptoeprint:2022/1019,cryptoeprint:2022/1054}.
+In this work we will focus on the basic SIDH case, but the ideas are easily generalized to all other settings.
+
+%\subsubsection{Adaptive attacks against SIDH.}
+%Some uses of SIDH require security not only against passive, but also active adversaries.
+%This is the case, for example, when deriving an IND-CCA public key encryption or KEM from it. 
+%
+%Galbraith, Petit, Shani and Ti~\cite{GPST16} showed that in contexts where Alice holds a long term secret $A$, and Bob can use Alice as an oracle computing SIDH shared keys, there is an active attack that lets Bob recover Alice's secret key in a handful of queries.
+%In the attack, Alice has a fixed secret key $A$ and public key $(E/A, \phi_A(P_B), \phi_A(Q_B))$.
+%Bob sends tuples $(E/B, R, S)$, where $R,S$ are not necessarily the correct images $\psi_B(P_A), \psi_B(Q_A)$, and learns whether or not Alice successfully computes $E/\langle A,B\rangle$.
+%Each query will result in Bob learning one bit of Alice's secret.
+%
+%Let $A = \langle P_A + [\alpha]Q_A\rangle$.
+%To learn the first bit, Bob uses key $(E_B, R, S)$ where
+%    \begin{align*}\label{eq:gpst_points}
+%        \begin{split}
+%            R &= \psi_B(P_A)\\
+%            S &= [1 + 2^{n-1}]\psi_B(Q_A).
+%        \end{split}
+%    \end{align*}
+%Then Alice computes
+%    \begin{align*}
+%        R + [\alpha]S &= \psi_B(P_A) + [\alpha]\psi_B(Q_A) + [2^{n-1}\alpha]\psi_B(Q_A)\\
+%        &= \begin{cases}
+%                \psi_B(P_A + [\alpha]Q_A) \quad &\text{if } \alpha = 0 \mod 2,\\
+%                \psi_B(P_A + [\alpha]Q_A + [2^{n-1}]Q_A) \quad &\text{if } \alpha = 1 \mod 2.
+%            \end{cases}
+%    \end{align*}
+%So Bob learns the parity of $\alpha$ based on %whether Alice successfully derives $E/\langle A,B\rangle$.
+%Subsequent bits are learned similarly.
+%
+%Because the attack is based on Bob sending incorrect inputs to Alice, it would be countered by an algorithm that checks that $(E_B, R, S)$ is a correct SIDH tuple.
+%Unfortunately checking the correctness of SIDH public keys is believed to be as hard as breaking SIDH itself~\cite{GV18,thormarkerthesis}, and so Alice cannot protect herself from attack in this way.
+%There are only two solutions known.
+%The solution used in SIKE~\cite{sike2017} is for Bob to reveal his key to Alice using a variant of Fujisaki-Okamoto transform, but this requires Bob to use ephemeral (i.e., single-use) keys.
+%The only other secure alternative known is to require Bob to provide a proof of knowledge that his key is correctly formed.
+
+%such as the one we describe in Section~\ref{sec:SIDH}.
+
+\subsection{CSIDH\label{sec:CSIDH}}
+
+%\CP{use group action formalism instead, with CSIDH as a special case (modulo technical details)?}
+
+Commutative Supersingular Isogeny Diffie-Hellman (CSIDH)~\cite{CSIDH} was proposed by Castryck, Lange, Martindale, Panny, and Renes. It is an example of a cryptographic group action, and it builds on ideas of Couveignes~\cite{Couv06}, and Rostovtsev and Stolbunov~\cite{RosSto}.
+Let $G$ be a finite abelian group and $X$ a set of size $|X|=|G|$. The group $G$ acts on $X$ if there is a binary operation $G \times X \to X$ which we write as $(g,x) \mapsto g*x$. We require $g*( g'*x) = (gg')*x$ for all $g, g' \in G$ and $x \in X$.
+
+In the case of CSIDH, the group $G$ is the ideal class group of the order $\OO = \Z[\sqrt{-p}]$ in  the imaginary quadratic field $\Q( \sqrt{-p} )$.
+The set $X$ is the set of isomorphism classes of elliptic  curves over $\F_p$ with endomorphism ring $\End(E) \cong \OO$, which are necessarily supersingular.
+Alternatively, one could work with supersingular curves whose $\Field_p$-endomorphism ring is $\mathbb{Z}[(1+\sqrt{-p})/2]$, see \cite{CD20}.
+
+
+The use of supersingular curves over $\F_p$ is for efficiency reasons.
+In fact, we choose the prime $p$ to have the special form $p = 4\ell_1 \cdots \ell_r -1$, for some integer $r$, where the $\ell_i$ are distinct small odd primes.
+Let $E_0/\F_p$ be the supersingular curve defined by $y^2 = x^3 + x$. 
+The endomorphism ring of $E_0$ is a maximal order in a quaternion algebra, but  the sub-ring of endomorphisms that are defined over $\F_p$ (we call this the $\F_p$-endomorphism ring) is isomorphic to a ring containing $\Z[\sqrt{-p}]$. 
+It is known that the ideal class group of the $\F_p$-endomorphism ring acts on the set of supersingular elliptic curves defined over $\F_p$, where each ideal corresponds to an isogeny~\cite{Waterhouse}.
+
+We make the reasonable assumption that the class group $\cl(\mathbb{Z}[\sqrt{-p}])$ is generated by the $r$ ideals $\fl_i = (\ell_i, \sqrt{-p} - 1)$ for $i$ from $1$ to $r$.
+\SG{I think typsetting looks clearer if we use $\fl_i = (\ell_i, 1 + \sqrt{-p})$ .}
+The class group $\cl(\mathbb{Z}[\sqrt{-p}])$ acts freely and transitively on the set $\Ell$ of $\F_p$-isomorphism classes of elliptic curves with $\F_p$-endomorphism ring $\Z[\sqrt{-p}]$. We can efficiently compute the action of the ideal classes $\overline{\fl}_1,\cdots,\overline{\fl}_r,$ and their inverses.
+
+For a vector $\bx \in \mathbb{Z}^r$ and $E \in \Ell$ we define \[ [\bx]E := \left( \prod_{i=1}^r {\overline{\fl}_i}^{x_i} \right) \star E  \, , \] where $\star$ is the action of the ideal class group.
+This is known as the CSIDH action. 
+
+Technically, we have defined the infinite group $\Z^r$ to act on the finite set $\Ell$, which does not match our earlier definition of a group action.
+In fact, one can define a lattice
+\[
+  L = \{ \bx \in \Z^r : [\bx]E = E \}
+\]
+such that the class group $\cl( \Z[\sqrt{-p}])$ is isomorphic to $\Z^r/L$ and we really have an action of $\Z^r/L$ on $\Ell$.
+ 
+
+
+We can now define the relation $\R$ as follows (we hope our choice of the symbol $\bx$ for the witness causes no confusion with the earlier convention of $x$ being the statement and $w$ being the witness) \LDF{why not use $\mathbf{w}$, then?}
+\[
+\R[CSIDH] = \left\{ (E,\bx) \in \Ell \times \mathbb{Z}^r \,\, | \,\, [\bx]E_0 = E \right\} \,.
+\]
+
+The CSIDH key exchange protocol works by Alice choosing random $\bx_A$ and sending $E_A = [\bx_A]E_0$ to Bob. Similarly, Bob chooses random $\bx_B$ and sends $E_B = [\bx_B]E_0$ to Alice. The shared key that both of them can compute is
+\[
+  [\bx_A]E_B = [\bx_A+\bx_B]E_0 = [\bx_B]E_A.
+\]
+
+
+\subsection{Quaternion algorithms and the KLPT algorithm}\label{sec:KLPT}
+
+Kohel, Lauter, Petit and Tignol (KLPT)~\cite{KLPT} introduced important algorithmic ideas for computing with quaternion algebras and computing isogenies of smooth degree.
+We will not cover all the mathematics. Instead we sketch the basic functionalities provided by their work (and extended by other authors).
+
+For this section we always assume $E_0$ is a very particular supersingular curve (namely, it is supersingular, defined over $\F_p$, and has a non-scalar endomorphism of very small degree).
+The canonical example is $y^2 = x^3 + x$, which has the non-trivial automorphism $\iota(x,y) = (-x,iy)$ where $i \in \F_{p^2}$ satisfies $i^2 = -1$.
+The $p$-power Frobenius map $\pi(x,y) = (x^p, y^p)$ satisfies $\pi \circ \iota = - \iota \circ \pi$ and $\pi^2 = [-p]$.
+It follows that $\End(E_0)$ contains a subring isomorphic to $\Z \oplus i\Z \oplus \sqrt{-p} \Z \oplus i \sqrt{-p}\Z $.
+The norm of an element $w + ix + \sqrt{-p}( y + iz)$ is $w^2 + x^2 + p( y^2 + z^2)$, and the KLPT algorithm heavily relies on norm forms that can be written as $Q(w,x) + p Q(y,z)$ where $Q$ is a binary quadratic form of small discriminant.
+
+The KLPT algorithm and other results we need all rely on the Deuring correspondence, which says that the endomorphism ring of a supersingular elliptic curve is a maximal order $\OO$ in a quaternion algebra, and that an isogeny $\phi : E_0 \to E_1$ corresponds to an ideal $I$ such that the left-order of $I$ is $\OO_0 = \End(E_0)$ and the right-order of $I$ is $\OO_1 = \End(E_1)$. 
+%\comment{(We may or may not want to define all these terms.)}
+Furthermore, the degree of $\phi$ is equal to the reduced norm of $I$.
+Key points are that maximal orders are defined up to conjugation $\alpha \OO \alpha^{-1}$ by a non-zero element $\alpha$ in the quaternion algebra, and that the module $I$ is also defined up to equivalence $I \equiv \alpha I \equiv I \alpha$, since $I$ having left-order $\OO$ means $\alpha I$ has left-order $\alpha \OO \alpha^{-1}$.
+Hence the infinitely many choices of isogeny $\phi : E_0 \to E_1$ correspond to the infinitely many equivalent ideals $I$.
+General references for this topic include~\cite{Reductions18,KLPT}.
+
+The KLPT algorithm allows to replace ideals by power-smooth degree ones in the same class.
+%
+More precisely, let $\OO_0$ be a maximal order in the quaternion algebra $B_{p,\infty}$ whose norm is of the form $Q(w,x) + p Q(y,z)$, and let $\OO_1$ be another maximal order.
+%
+The  KLPT algorithm takes as input a small prime $\ell$ and a sufficiently large integer $n > \tfrac{7}{2}\log_\ell( p)$, and returns an ideal $I$ of norm $\ell^n$ that is a left $\OO_0$-ideal and whose right order is isomorphic to $\OO_1$. 
+%
+The algorithm was adapted in~\cite{GPS20} to produce ideals of $B$-powersmooth norm (meaning the norm is of the form $N = \prod_i\ell_i^{e_i}$ where the $\ell_i$ are distinct primes and $\ell_i^{e_i} \le B$).
+One takes $B = c \log p $ for a suitable constant $c$.
+The heuristic analyses in~\cite{GPS20} suggest that this can be done for any choice of $N$ of size $\log(N) \approx \tfrac{7}{2} \log(p)$.
+%
+This is improved to $\log(N) \approx 3 \log(p)$ with another small modification to the KLPT algorithm proposed in~\cite{PetitSmith}.
+%
+%\WB{reviewer says: there's some confusing statement that a paper from 2018 fixes/improves something in a paper from 2020; I think this could be phrased better}\CP{fixed}
+
+
+
+Because their norms are powersmooth, ideals output by the KLPT algorithm can be efficiently converted into isogenies using standard techniques based on kernel identification~\cite{Waterhouse}. 
+%
+The KLPT algorithm has this way enabled efficient solutions to several algorithmic problems related to supersingular curves, their endomorphisms and isogenies, including:
+\begin{itemize}
+    \item Given a maximal order $\OO$, to compute an elliptic curve $E_1$ with $\End(E_1) \cong \OO$ (namely by constructing an isogeny $\phi : E_0 \to E_1$).
+    \item Given $E_0$ and $\End(E_1)$ to compute a (random or canonical) smooth or semi-smooth degree isogeny from $E_0$ to $E_1$.
+    \item Given $E_0$ and an isogeny $\phi : E_0 \to E_1$, to compute $\End(E_1)$. 
+\end{itemize}
+We refer to~\cite{KLPT,GPS20,Reductions18,DFKLPW20,SQIsign2.0} for details.
+
+
+%\CP{I don't mind this very much, but I think KLPT often refers only to the first item. The other parts (relating to the Deuring correspondence, and to the equivalence of isogeny and endomorphism computation problem) were known but left out in 2014, and only published in the EC18 paper. }
+
+
+
+%This gives an $\ell^n$-isogeny between the corresponding elliptic curves. \CP{Last part is not entirely obvious: the $\ell^n$ torsion may only be defined over a very large extension field hence you cannot apply Waterhouse directly; the workaround is to apply KLPT several times with powersmooth degrees (details in my EC18 paper) }
+
+
+
+%\comment{Improvements to KLPT are given by: Luca De Feo, Antonin Leroux, and Benjamin Wesolowski New algorithms for the Deuring correspondence: SQISign twice as fast \CP{I think the contributions here are an improvement to the Deuring correspondence algorithm rather than core KLPT. There is also a change to the KLPT version used in SQIsign originally, but I think that version was not consistent with the original description of the KLPT algorithm}}

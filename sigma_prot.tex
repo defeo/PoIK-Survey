@@ -1,0 +1,123 @@
+
+
+
+
+Many zero-knowledge proof protocols (e.g., Schnorr proofs) fall in the so-called framework of \emph{sigma protocols} for \emph{hard relations}. 
+A hard relation is one where there is an efficient algorithm to generate pairs $(x,w)$, but it is computationally infeasible to compute $w$ given only $x$.
+A sigma protocol is a type of proof of knowledge protocol between a prover $\PP$ and a verifier $\VV$, where the prover wants to convince the verifier that for some statement $x$ known to $\PP$ and $\VV$, he knows a witness $w$, such that $(x,w) \in \Rela$, for some relation $\Rela$. Informally, we want the sigma protocol to be complete, which means that an honest prover can always convince the verifier that he knows a witness; we want the sigma protocol to be sound, which means that if a prover does not know a witness, he can only convince the verifier with a limited probability, and we want the protocol to be zero-knowledge, which means that the prover does not reveal anything about the witness.
+%, except the fact that he knows a witness $w$ such that $(x,w) \in \Rela$. 
+More formally, a sigma protocol is defined as follows: 
+
+\begin{definition} \label{def:sigmaprot}
+We say $\Sigma = (P_1,P_2,V_2)$ is a sigma protocol with challenge space $\CC$, for a relation $\Rela$ if the following properties are satisfied:
+
+\begin{itemize}
+    \item {\bf Three-round public coin.} The prover $\PP$ starts the protocol by generating a first message $\com \gets P_1(x,w)$ (often called a commitment), and sending it to the verifier $\VV$. Then, the verifier chooses a challenge $\chall \gets \CC$ uniformly at random from the challenge space $\CC$, and sends it to $\PP$. Finally, $\PP$ computes a response $\resp \gets P_2(\chall)$ ($P_1$ and $P_2$ share a state) and sends it to $\VV$, who runs the verification algorithm $V_2(x,\com,\chall,\resp)$, which outputs $1$ or $0$, signalling that $\VV$ accepts or rejects the proof respectively. (See \cref{fig:sigmaprotocol})
+    
+    \item {\bf Completeness/correctness.} The completeness (sometimes called correctness) property says that if both parties follow the protocol, and if the prover uses a valid witness $w$ such that $(x,w) \in \Rela$, then the verifier will accept the proof with probability 1. I.e., for all $(x,w) \in \Rela$, we have \[
+\Pr \left[ V_2(x,\com,\chall,\resp) = 1 \middle| \begin{array}{l} \com \gets P_1(x,w) \\ \chall \gets \CC \\ \resp \gets P_2(\chall) \end{array} \right] = 1 \, . 
+\]
+
+    \item {\bf $n$-Special Soundness.} A sigma protocol has $n$-special soundness if there exists an efficient extractor algorithm that given $n$ transcripts of the form $(x,\com,\chall_i,\resp_i)$ for $1 \le i \le n$, with $V_2(x,\com,\chall_i,\resp_i) =  1$ for all $i$, and $\chall_i \neq \chall_j$ for all $1 \le i < j \le n$, outputs a witness $w$ such that $(x,w) \in \Rela$. 
+    
+    \item {\bf Special honest-verifier zero-knowledge.} A sigma protocol is called special honest-verifier zero-knowledge if there exists an efficient simulator $\Sim$ that given $x$ and $\chall \in \CC$ outputs transcripts $(x,\com,\chall,\resp)$ that are indistinguishable from transcripts of honest executions of the protocol. More precisely, for every $(x,w) \in \Rela$, and every $\chall \in \CC$ we require that \[ 
+\Sim(x,\chall) \approx \left\{ (x,\com,\chall,\resp) \middle| \begin{array}{l} \com \gets P_1(x,w) \\ \resp \gets P_2(\chall) \end{array} \right\} \,. \] 
+If the distributions are identical, we say the sigma protocol has \emph{perfect} special honest-verifier zero-knowledge (sHVZK), if the distributions are statistically close, we say the protocol has \emph{statistical} sHVZK, and if the distributions are only computationally indistinguishable, then we say the sigma protocol is \emph{computationally} sHVZK.
+\end{itemize}
+
+\end{definition} 
+
+Section 4.3 of Goldreich~\cite{Gol01} gives a stronger formulation of computational zero knowledge that considers malicious verifiers. 
+%\CP{is this useful to mention?}
+
+\begin{figure}
+    \centering
+    \begin{adjustbox}{minipage=.95\linewidth,fbox,center}
+
+    \begin{tabularx}{\textwidth}{bsb}
+    \multicolumn{1}{c}{{\bf Prover}($x,w$)} &  & \multicolumn{1}{c}{{\bf Verifier}($x$)} \\
+    \\
+    \quad $\com \gets P_1(x,w)$ & & \\
+     &  \multicolumn{1}{c}{ $\xrightarrow{\quad \com \quad} $ }  & \\
+     & & \quad $\chall \gets \CC$ \\
+     & \multicolumn{1}{c}{ $\xleftarrow{\quad \chall \quad } $ } & \\ 
+    \quad $\resp \leftarrow P_2(\chall)$ & & \\
+    & \multicolumn{1}{c}{ $\xrightarrow{\quad \resp \quad }$} & \\
+    & & \quad {\bf Return} $V_2(x,\com,\chall,\resp)$  \\
+    \end{tabularx}
+    \end{adjustbox}
+    \caption{The structure of a general sigma protocol.}
+    \label{fig:sigmaprotocol}
+\end{figure}
+
+\begin{remark}
+The existence of the simulator implies that, for any sigma protocol that is special honest-verifier zero-knowledge, there is always a cheating prover who does not know a witness but who guesses the challenge and can respond correctly if their guess is correct.
+Hence one can always cheat with probability at least $1/|\CC|$.
+We call the successful cheating probability the \emph{soundness error}.
+A protocol with soundness error $\epsilon$ should be computed $k$ times, so that the overall soundness error $\epsilon^k$ is negligible (usually $< 2^{-128}$). 
+%\CP{I think for the GPS paper we had a remark that this soundness amplification procedure works when a basic protocol is 2-special sound, but may not be proven secure in general. Steven, does that sound familiar to you?} \SG{No, the text here is correct. The soundness error $\epsilon$ is not necessarily equal to $1/|\CC|$. In our paper it was $(|\CC|-1)/|\CC|$. That's why the next sentence says:}
+The ideal case is when the soundness error is equal to $1/|\CC|$ and $|\CC|$ is large.
+
+ Suppose the sigma protocol is $n$-special sound where $n > 2$. Suppose further that, for a statement $x$ and a commitment $\com$, a cheating prover can respond to $n$ distinct challenges. Then the prover can generate $n$ transcripts, and by the $n$-special soundness property can compute a witness $w$ such that $(x,w) \in \Rela$. It follows that the cheating prover must only be able to answer up to $n-1$ distinct challenges. Hence if a protocol is $n$-special sound then the soundness error should be at most $(n-1)/|\CC|$.
+\end{remark}
+
+\begin{remark}
+The special honest-verifier zero-knowledge property implies that an honest execution of the protocol does not reveal any additional information about $w$, because everything that could be learned by inspecting a transcript $(x,\com,\chall,\resp)$ could also be learned directly from $x$ alone, by first running the simulator $\Sim(x,\chall)$ and then inspecting the simulated transcript. 
+\end{remark}
+
+\begin{remark}
+Perfect ZK and statistical ZK provide an information-theoretic guarantee that a verifier learns nothing about the witness from the proof. Hence they are preferable to computational ZK.
+Computational ZK usually requires introducing new computational assumptions (typically decisional assumptions) beyond what is needed for the hardness of the relation, and this leads to increased complexity and possible weaknesses.
+The sigma protocols in the case of CSIDH have perfect or statistical ZK, but the sigma protocols for SIDH that we describe in Section~\ref{sec:SIDH-setting} and Section~\ref{sec:GPSandSQIsign} rely on computational assumptions. \CP{I partly disagree with what is written here: Section 6 has nothing to do with SIDH;  ZK proof underlying GPS has statistical ZK; statistical ZK for some CSIDH-based protocols only conjectural} \SG{Agree this remark needs to be tweaked. But the main point is correct, that perfect ZK is better than statistical ZK is better than comput ZK.}
+\end{remark}
+
+
+
+
+\iffalse
+
+Definitions n-special soundness and computational ZK.
+
+
+Reference: Damg{\aa}rd's 2010 notes
+
+Let $\lambda$ be a security parameter.
+Let $R = R_\lambda$ be a binary relation on $(\{ 0,1 \}^\lambda )^2$. If $(x,w) \in R$ then $w$ is called the \textbf{witness} for $x$. ($w$ may not be unique.)
+A relation $R_\lambda$ is \textbf{hard} if there is a probabilistic polynomial-time (in $1^\lambda$) algorithm that outputs a pair $(x, w) \in R_\lambda$, and if there is no efficient algorithm that given $x$ computes $w$.
+
+
+\textbf{Sigma protocol}: Prover $P$ and verifier $V$ both know $x$. Prover sends commitment $\com$. Verifier responds with challenge $\chall$. Prover sends response $\resp$. Verifier runs algorithm
+$Ver( x, \com, \chall, \resp )$ which returns 0 (reject) or 1 (accept).
+
+
+\textbf{Soundness} (also called 2-special soundness):
+There exists a polynomial-time algorithm (called an extractor) that takes $( x, \com, \chall, \resp , \chall', \resp')$ such that $\chall' \ne \chall$
+$Ver( x, \com, \chall, \resp ) = 1 $ and $Ver( x, \com, \chall', \resp' ) = 1$ and returns a witness $w$.
+
+\textbf{Honest-verifier zero-knowledge}:
+There exists a polynomial-time simulator $M(x,\chall)$ that outputs $(\com, \resp)$ such that $Ver( x, \com, \chall, \resp ) = 1 $.
+
+This is \textbf{statistical} HVZK if the transcripts $(\com, \chall, \resp )$ are distributed identically to transcripts in the honest protocol.
+
+\textbf{Computational} HVZK is when transcripts are computationally hard to distinguish from the honest protocol.
+
+
+Precise definition of Computational ZK:
+(Section 4.3 of Goldreich~\cite{Gol01})
+For an element $x \in L$ we define the transcript of the interaction between an honest prover $P$ and a potentially dishonest verifier $V^*$ by $view^P_{V^*}(x)$.
+An interactive proof is computational zero knowledge if for every ppt algorithm (malicious verifier) $V^*$ there is a ppt simulator $M^*$ such that 
+for all negligible functions $negl(n)$ and all distinguishers $A$ and all sufficiently large $n$ and all instances $x \in L \cap \{ 0,1 \}^n$ of the language
+we have
+\[
+   \Pr( A( view^P_{V^*}(x) )=1 ) - \Pr( A( M^*(x) )=1 )]  = negl(n).
+\]
+
+
+
+\textbf{Witness indistinguishable} (WI): the distribution of transcripts $(\com, \chall, \resp )$ is independent of the choice of witness.
+
+Q: Is there such a thing as computational witness indist???
+
+Q: Is there any point to discussing this?
+
+\fi
