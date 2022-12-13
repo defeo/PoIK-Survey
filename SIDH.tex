@@ -8,9 +8,10 @@ As mentioned in Section~\ref{sec:isog-graph} it suffices to consider elliptic cu
 Lacking a well behaved group action on the set of supersingular curves, we have to get more creative in order to define secure protocols.
 
 Along with the SIDH key exchange, De Feo, Jao and Pl\^{u}t~\cite{DFJP14} sketched the first sigma protocol to prove knowledge of an isogeny between two supersingular curves over $\F_{p^2}$, provided $p$ is an ``SIDH prime''.
-We start by presenting this simple protocol, which we refer to as DFJP, and highlighting some issues with its soundness.
-Then we will introduce some modifications proposed by De Feo, Dobson, Galbraith and Zobernig~\cite{DFDGZ21} to improve soundness, and touch upon the more complex question of how to prove knowledge of an SIDH secret key, i.e.\ a witness of $\R[SIDH]$.
-Finally we will discuss some open questions.
+We start by presenting this simple protocol, which we refer to as DFJP.
+We highlight some issues with its soundness and zero-knowledge, and explain how to fix them, following De Feo, Dobson, Galbraith and Zobernig~\cite{DFDGZ21}.
+Then, we present a recent generalization of DFJP which applies to any characteristic and achieves statistical zero-knowledge.
+Finally, we discuss some open questions.
 
 
 \subsection{The DFJP protocol}\label{sec:DFJP}
@@ -124,9 +125,9 @@ The main obstacle to extracting $\phi$ in DFJP is that the three sides $\psi,\ps
     }
 \end{equation*}
 %
-The existence of $\phi$ parallel to $\phi'$ is only guaranteed if $\psi$ and $\psi'$ are proven to be parallel with respect to $\phi'$.
+The existence of $\phi$ parallel to $\phi'$ is guaranteed if and only if $\widehat\psi$ and $\widehat\psi'$ are proven to be parallel with respect to $\phi'$.
 The key idea then is to ``flip the SIDH square'' and to treat $\phi':E_2\to E_3$ as the base for the square.
-By publishing torsion point information associated to $E_2$ and $E_3$, one can prove that $\psi$ and $\psi'$ are indeed parallel.
+By publishing torsion point information associated to $E_2$ and $E_3$, one can prove that $\widehat\psi$ and $\widehat\psi'$ are indeed parallel.
 
 Putting all ideas together gives the following protocol (also see Figure~\ref{fig:R-deg-proof}):
 
@@ -136,8 +137,8 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     \begin{itemize}
         \item chooses a random cyclic group $G = \ker(\psi)$ in $E_0$ of order $D=3^m$, constructs the commutative diagram~\eqref{eq:sidh-pok}, 
         \item chooses a random basis $P_2,Q_2$ of $E_2[D]$, computes $P_3 = \phi'(P_2), Q_3 = \phi'(Q_2)$,
-        \item computes integers $(c,d)$ such that $\ker(\widehat\psi) = \langle [c]P_2 + [d]Q_2\rangle$,
-        \item sends commitments $\Com_L = \Com(E_2,P_2,Q_2; r_L)$, $\Com_R = \Com(E_3,P_3,Q_3; r_R)$ and $\Com = \Com(c,d; r)$ to the verifier;
+        \item computes integers $(a,b)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$,
+        \item sends commitments $\Com_L = \Com(E_2,P_2,Q_2; r_L)$, $\Com_R = \Com(E_3,P_3,Q_3; r_R)$ and $\Com = \Com(a,b; r)$ to the verifier;
     \end{itemize}
     \item The verifier challenges with a random value $\chall\in\{-1,0,1\}$;
     \item The prover opens:
@@ -148,8 +149,8 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     \end{itemize}
     \item The verifier checks that the opened commitments are well formed, and:
     \begin{itemize}
-        \item that $E_0 = E_2/\langle [c]P_2 + [d]Q_2\rangle$ if $\chall = -1$,
-        \item that $E_1 = E_3/\langle [c]P_3 + [d]Q_3\rangle$ if $\chall = 0$,
+        \item that $E_0 = E_2/\langle [a]P_2 + [b]Q_2\rangle$ if $\chall = -1$,
+        \item that $E_1 = E_3/\langle [a]P_3 + [b]Q_3\rangle$ if $\chall = 0$,
         \item that $E_3 = E_2/\ker(\phi')$ and that $P_3 = \phi'(P_2), Q_3 = \phi'(Q_2)$ if $\chall = 1$.
     \end{itemize}
 \end{enumerate}
@@ -166,9 +167,9 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     Define $\psi : E_0 \to E_2$ with kernel $G$ and construct the diagram~\eqref{eq:sidh-pok} \\
     Choose a random basis $P_2,Q_2$ of $E_2[D]$ \\
      $P_3 \gets \phi'(P_2), Q_3 \gets \phi'(Q_2)$ \\
-     Compute integers $(c,d)$ such that $\ker(\widehat\psi) = \langle [c]P_2 + [d]Q_2\rangle$ \\
+     Compute integers $(a,b)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$ \\
      Choose random $r_L$, $r_R$, $r$ \\
-     $\Com \gets \Com(c,d; r)$, $\Com_L \gets \Com(E_2,P_2,Q_2; r_L)$, $\Com_R \gets \Com(E_3,P_3,Q_3; r_R)$   \\   
+     $\Com \gets \Com(a,b; r)$, $\Com_L \gets \Com(E_2,P_2,Q_2; r_L)$, $\Com_R \gets \Com(E_3,P_3,Q_3; r_R)$   \\   
     \quad  & & \\
      &  \multicolumn{1}{c}{ $\xrightarrow{\quad \Com_L, \Com_R, \Com \quad } $ }  & \\
      & & \quad $c \gets \{-1,0,1\}$ \\
@@ -180,9 +181,9 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     & & Check that opened commitments are well \\
     & &  formed \\
     & &  {\bf If} $c = -1$: \\
-    & &  \quad {\bf return} $E_0 = E_2/\langle [c]P_2 + [d]Q_2\rangle$ \\
+    & &  \quad {\bf return} $E_0 = E_2/\langle [a]P_2 + [b]Q_2\rangle$ \\
     & &  {\bf If} $c = 0$: \\ 
-    & &  \quad {\bf return} $E_1 =  E_3/\langle [c]P_3 + [d]Q_3\rangle  $  \\
+    & &  \quad {\bf return} $E_1 =  E_3/\langle [a]P_3 + [b]Q_3\rangle  $  \\
     & &  {\bf If} $c = 1$: \\
     & & \quad Construct $\phi'$ from  $\ker(\phi')$ \\
     & &  \quad {\bf return} $E_3 =   E_2/\ker(\phi')$ \\
@@ -204,18 +205,18 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     assuming DSSP is hard and $\Com$ is a statistically hiding and computationally binding commitment scheme.
 \end{proposition}
 \begin{proof} (Sketch)
-    Correctness is similar to DFJP. The only additional property to check is that, if the SIDH square is generated honestly, one can efficiently find integers $(c,d)$ such that $\ker(\widehat\psi) = \langle [c]P_2 + [d]Q_2\rangle$ and $\ker(\widehat\psi') = \langle [c]P_3 + [d]Q_3\rangle$.
-    A generator for $\ker(\widehat\psi)$ can be found by pushing $E_0[D]$ through $\phi$, then the integers $(c,d)$ can be computed by solving a generalized discrete logarithm in $E_2[D]$, which is easy because $D$ is smooth.
-    Then $\ker(\widehat\psi') = \langle [c]P_3 + [d]Q_3\rangle$ follows from the fact that $\psi$ and $\psi'$ are parallel, and thus $\ker(\widehat\psi') = \phi'(\ker(\widehat\psi))$.
+    Correctness is similar to DFJP. The only additional property to check is that, if the SIDH square is generated honestly, one can efficiently find integers $(c,d)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$ and $\ker(\widehat\psi') = \langle [a]P_3 + [b]Q_3\rangle$.
+    A generator for $\ker(\widehat\psi)$ can be found by pushing $E_0[D]$ through $\psi$, then the integers $(a,b)$ can be computed by solving a generalized discrete logarithm in $E_2[D]$, which is easy because $D$ is smooth.
+    Then $\ker(\widehat\psi') = \langle [a]P_3 + [b]Q_3\rangle$ follows from the fact that $\psi$ and $\psi'$ are parallel, and thus $\ker(\widehat\psi') = \phi'(\ker(\widehat\psi))$.
     
-    \emph{Zero Knowledge.} The simulator for the case $\chall = -1$ picks a random isogeny $\psi:E_0\to E_2$, a random basis $(P_2,Q_2)$, computes $(c,d)$, and finally computes the commitments $\Com_L$ and $\Com$ as in the protocol.
+    \emph{Zero Knowledge.} The simulator for the case $\chall = -1$ picks a random isogeny $\psi:E_0\to E_2$, a random basis $(P_2,Q_2)$, computes $(a,b)$, and finally computes the commitments $\Com_L$ and $\Com$ as in the protocol.
     As the commitment $\Com_R$ will not be opened, it is replaced by a random value.
     
     The case $\chall = 0$ is nearly identical, but with the goal of ensuring $\Com_R$ and $\Com$ can be opened in the protocol.
     
-    Finally, the case $\chall = 1$ is simulated as in DFJP, with the additional data $(P_2,Q_2,P_3,Q_3)$, which can be computed as in the protocol.
+    Finally, the case $\chall = 1$ is simulated by taking a random $\psi:E_0\to E_2$, then a random $\phi':E_2\to E_3$ not necessarily parallel to $\phi$, a random basis $\langle P_2,Q_2\rangle = E_2[D]$, and points $P_3 = \phi'(P_2)$ and $Q_3 = \phi'(Q_2)$.
     The commitment $\Com$ will not be opened and is replaced by a random value.
-    As in DFJP, this part of the simulation is only indistinguishable from the real protocol assuming DSSP is hard.
+    Like in DFJP, this part of the simulation is only indistinguishable from the real protocol assuming DSSP is hard.
     
     \emph{Soundness.} Because the protocol uses ternary challenges, we show it is 3-special sound.
     Since the commitment scheme $\Com$ is computationally binding, the openings of the commitments match in each of the three valid transcripts. Hence, we extract $\widehat\psi$, $\widehat\psi'$ and $\phi'$, with the additional property that $\ker(\widehat\psi') = \phi'(\ker(\widehat\psi))$.
@@ -230,7 +231,7 @@ Note that a cheating prover can correctly answer any two of the challenges witho
 \paragraph{Sigma protocol for \R[SIDH].}
 In the same work~\cite{DFDGZ21}, De Feo, Dobson, Galbraith and Zobernig further modify the previous protocol to achieve a ZK proof of knowledge for the relation \R[SIDH], i.e.\ the knowledge of an SIDH secret key.
 The idea is, roughly, to run two correlated instances of the protocol, and to let the verifier check that they are both consistent with the torsion point information that is part of the public key.
-While this protocol is not anymore relevant for SIDH/SIKE, it is still a non-trivial proof of knowledge in variants where \R[SIDH] is thought to be hard.
+While this protocol is not anymore relevant for proper SIDH/SIKE, a simple tweak yields a proof of knowledge for \R[M-SIDH], which is non-trivial in cases where \R[M-SIDH] is thought to be hard.
 
 %This protocol can be used, for example, to counter the GPST adaptive attack, thus yielding a secure non-interactive key exchange based on SIDH.
 %
