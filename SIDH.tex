@@ -10,7 +10,7 @@ Lacking a well behaved group action on the set of supersingular curves, we have 
 Along with the SIDH key exchange, De Feo, Jao and Pl\^{u}t~\cite{DFJP14} sketched the first sigma protocol to prove knowledge of an isogeny between two supersingular curves over $\F_{p^2}$, provided $p$ is an ``SIDH prime''.
 We start by presenting this simple protocol, which we refer to as DFJP.
 We highlight some issues with its soundness and zero-knowledge, and explain how to fix them, following De Feo, Dobson, Galbraith and Zobernig~\cite{DFDGZ21}.
-Then, we present a recent generalization of DFJP which applies to any characteristic and achieves statistical zero-knowledge.
+Then, we present a recent generalization of DFJP which applies to any characteristic and achieves statistical zero-knowledge~\cite{cryptoeprint:2022/1469}.
 Finally, we discuss some open questions.
 
 
@@ -161,9 +161,9 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     \centering
     \begin{adjustbox}{minipage=1.3\linewidth,fbox,center}
     \begin{tabularx}{\textwidth}{bsb}
-    \multicolumn{1}{c}{{\bf Prover}(($E_0,E_1,\phi$))} &  & \multicolumn{1}{c}{{\bf Verifier}($E_0,E_1$)} \\
+    \multicolumn{1}{c}{{\bf Prover}(($E_0,E_1,d=2^n,D=3^m,\phi$))} &  & \multicolumn{1}{c}{{\bf Verifier}($E_0,E_1,d=2^n,D=3^m$)} \\
     \\
-    Choose random cyclic group $G \subseteq E_0$ of order $D=3^m$ \\
+    Choose random cyclic group $G \subseteq E_0$ of order $D$ \\
     Define $\psi : E_0 \to E_2$ with kernel $G$ and construct the diagram~\eqref{eq:sidh-pok} \\
     Choose a random basis $P_2,Q_2$ of $E_2[D]$ \\
      $P_3 \gets \phi'(P_2), Q_3 \gets \phi'(Q_2)$ \\
@@ -179,12 +179,15 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
      {\bf If} $c = 1$: $\resp \gets $ opening of $\Com_L, \Com_R$, and  $\ker(\phi')$ & & \\
     & \multicolumn{1}{c}{ $\xrightarrow{\quad \resp \quad }$} & \\
     & & Check that opened commitments are well \\
-    & &  formed \\
+    & &  formed, and
+    $(P_2,Q_2)$ and/or $(P_3,Q_3)$ are $D$-torsion bases, and
+    $3\nmid\gcd(a,b)$\\
     & &  {\bf If} $c = -1$: \\
     & &  \quad {\bf return} $E_0 = E_2/\langle [a]P_2 + [b]Q_2\rangle$ \\
     & &  {\bf If} $c = 0$: \\ 
     & &  \quad {\bf return} $E_1 =  E_3/\langle [a]P_3 + [b]Q_3\rangle  $  \\
     & &  {\bf If} $c = 1$: \\
+    & & \quad Check that $\#\ker(\phi') = d$\\
     & & \quad Construct $\phi'$ from  $\ker(\phi')$ \\
     & &  \quad {\bf return} $E_3 =   E_2/\ker(\phi')$ \\
      & &  \quad \quad and $P_3 = \phi'(P_2)$ \\
@@ -308,6 +311,7 @@ While this protocol is not anymore relevant for proper SIDH/SIKE, a simple tweak
 
 
 \subsection{From computational to statistical zero-knowledge}
+\label{sec:from-comp-stat}
 
 The last obstacle standing between the protocol above and a fully
 zero-knowledge one is the DSSP problem. Said otherwise, we would need
@@ -344,23 +348,104 @@ $\psi:E\to E'$ such that $\psi(G) = G'$. They call these \emph{isogeny
   graphs with Borel level structure}, and prove they are Ramanujan,
 which is exactly what is needed to make the intuition above work.
 
-There is an obstacle, though, to put this idea in practice.  For
-$(E_2,\psi(\ker(\phi))$ to get statistically close to the stationary
-distribution on the new isogeny graph, it is necessary to take
-isogenies of degree $D = 3^m > \gamma pd$ for some explicit constant
-$\gamma > 1$ (see~\cite[Remark~12]{cryptoeprint:2022/1469}).
+\begin{figure}
+  \centering
+    \begin{adjustbox}{minipage=1.3\linewidth,fbox,center}
+    \begin{tabularx}{\textwidth}{bsb}
+    \multicolumn{1}{c}{{\bf Prover}(($E_0,E_1,d,\gamma,\phi$))} &  & \multicolumn{1}{c}{{\bf Verifier}($E_0,E_1,d,\gamma$)} \\
+    \\
+    Let $m$ be such that $m/\log(m) \ge \gamma p d$\\
+    Choose random cyclic group $G \subseteq E_0$ of order $D=3^m$ \\
+    Define $\psi : E_0 \to E_2$ with kernel $G$ and construct the diagram~\eqref{eq:sidh-pok} \\
+    Choose random $r_L$, $r_R$ \\
+    $\Com_L \gets \Com(E_2; r_L)$, $\Com_R \gets \Com(E_3; r_R)$   \\   
+    \quad  & & \\
+     &  \multicolumn{1}{c}{ $\xrightarrow{\quad \Com_L, \Com_R\quad } $ }  & \\
+     & & \quad $c \gets \{-1,0,1\}$ \\
+     & \multicolumn{1}{c}{ $\xleftarrow{\quad c \quad } $ } & \\ 
+     {\bf If} $c = -1$:\\
+     \quad $\resp \gets $ opening of $\Com_L$, and $\ker(\psi)$ & & \\
+     {\bf If} $c = 0$:\\
+     \quad $\resp \gets $ opening of $ \Com_R$, and $\ker(\psi')$ & & \\
+     {\bf If} $c = 1$:\\
+     \quad $\resp \gets $ opening of $\Com_L, \Com_R$, and  $\ker(\phi')$ & & \\
+    & \multicolumn{1}{c}{ $\xrightarrow{\quad \resp \quad }$} & \\
+    & & Check that opened commitments are well \\
+    & &  formed and kernels have the expected size \\
+    & &  {\bf If} $c = -1$: \\
+    & &  \quad {\bf return} $E_2 = E_0/\ker(\psi)$ \\
+    & &  {\bf If} $c = 0$: \\ 
+    & &  \quad {\bf return} $E_3 =  E_1/\ker(\psi')$  \\
+    & &  {\bf If} $c = 1$: \\
+    & &  \quad {\bf return} $E_3 =   E_2/\ker(\phi')$ \\
+    \end{tabularx}
+  \end{adjustbox}  
+  \caption{A ``meta-protocol'' for \R[isog].}
+  \label{fig:stat-zk}
+\end{figure}
 
-TODO
+Putting it all together yields the ``meta-protocol'' of
+Figure~\ref{fig:stat-zk}. For technical reasons that will be clear in
+a moment, this protocol cannot use the ``flipping the SIDH square''
+trick of Figure~\ref{fig:R-deg-proof}, and is thus only a proof of
+knowledge for \R[isog], like the DFJP protocol.  However, the response
+to challenge $c=1$ contains the degree $d=\deg(\phi)$, thus the
+protocol can only be zero-knowledge for \R[deg], as the authors show.
+
+\begin{proposition}
+  The protocol of Figure~\ref{fig:stat-zk} is a 3-special sound proof
+  of knowledge for \R[isog], assuming $\Com$ is computationally
+  binding.  Furthermore, if $\Com$ is statistically hiding, there
+  exists an explicit constant $\gamma>1$, depending only on the
+  security parameter, such that it is statistically zero-knowledge for
+  \R[deg].
+\end{proposition}
+
+There is an obstacle, though, to put this idea into practice.  The
+degree $D=3^m$ is way too large for the curves to have rational points
+of order $D$ defined over $\F_{p^2}$, or even over an extension field
+of polynomial degree.  Instead of using a single kernel generator to
+represent and compute isogenies, the authors observe that SIDH squares
+can be efficiently ``glued'' together to form what they call
+\emph{SIDH ladders}:
+%
+\begin{equation*}
+  \begin{tikzpicture}
+    \small
+    \node (E0) at (0,0) {$E_0$};
+    \node (E1) at (2,0) {$E_1$};
+    \node (Ee0) at (0,-1) {$\bullet$};
+    \node (Eo0) at (2,-1) {$\bullet$};
+    \node (Ee1) at (0,-2.5) {$\bullet$};
+    \node (Eo1) at (2,-2.5) {$\bullet$};
+    \node (E2) at (0,-3.5) {$E_2$};
+    \node (E3) at (2,-3.5) {$E_3$};
+
+    \draw[-latex]
+    (E0) edge node[above] {$\phi$} (E1)
+    (Ee0) edge (Eo0)
+    (Ee1) edge (Eo1)
+    (E2) edge node[below] {$\phi'$} (E3)
+    (E0) edge (Ee0)
+    (E1) edge (Eo0)
+    (Ee1) edge (E2)
+    (Eo1) edge (E3);
+    \draw[dotted,-latex]
+    (Ee0) edge node[left] {$\psi$} (Ee1)
+    (Eo0) edge node[right] {$\psi'$} (Eo1);
+  \end{tikzpicture}
+\end{equation*}
+Additionally, one may glue SIDH squares both vertically and
+horizontally, thus freeing the protocol from the constraint of having
+the isogeny degrees divide $p+1$.
 
 
 \subsection{SIDH signatures}
 
 The Fiat-Shamir heuristic can be used to make sigma protocols non-interactive.
 %From the point of view of signatures it is most efficient to stick with the simplest protocols.
-The basic DFJP protocol from Section~\ref{sec:DFJP} has been used to construct a signature scheme in Yoo et al~\cite{YAJJS17} and~\cite{GPS20}, based on the hardness of the relation \R[isog].
-These schemes are no longer secure, due to the attacks on SIDH, but it is fairly straightforward to construct secure signatures based on the 3-special-sound protocol with ternary challenges.
-%Even though the underlying computational problem for these schemes is not SIDH, 
-
+The basic DFJP protocol from Section~\ref{sec:DFJP} has been used to construct a signature scheme in Yoo et al~\cite{YAJJS17} and~\cite{GPS20}, based on the hardness of the relation \R[isog]. \LDF{\R[SIDH]?}
+These schemes are no longer secure, due to the attacks on SIDH, but it is fairly straightforward to construct secure signatures based on any of the protocols with ternary challenges above.
 
 
 
@@ -374,44 +459,31 @@ These schemes are no longer secure, due to the attacks on SIDH, but it is fairly
 
 \subsection{Questions and perspectives}
 
-The currently known SIDH-based proofs of knowledge have several limitations: they are limited to SIDH-friendly finite fields, are relatively inefficient (due to the challenge set being small) and do not have statistical zero knowledge.
-We now discuss these limitations one by one.
-
-\paragraph{Other finite fields.}
-Beyond the SIDH setting where $d=2^n$ and $D=3^m$, the protocols we just described work as long as $d,D$ are smooth integers and the points of $E[d]$ and $E[D]$ can be efficiently represented.\footnote{For security, $d$ and $D$ should both be large and roughly of the same size, lest the NP-relations or the DSSP problem become easy.}
-This is certainly the case if $p = dDf \pm 1$, so that $E[dD] \subset E(\F_{p^2})$.
-More generally, one could take $E[d]$ and $E[D]$ to be defined in a small extension of $\F_{p^2}$, as is the case in B-SIDH~\cite{10.1007/978-3-030-64834-3_15}.
-
-Even more generally, if $d = ef$ and $\gcd(e,f)=1$, then points of $E[d]$ can be equivalently represented as formal linear combinations of points of $E[e]$ and $E[f]$.
-If $d$ and $D$ are power-smooth (i.e.\ all their \emph{primary} factors are smaller than a given bound), points of $E[d]$ and $E[D]$ can always be represented as linear combinations of points in small extensions of the base field, as suggested in~\cite{GPS20}.
-
-Each added degree of generality comes at an additional cost, so that the B-SIDH case is already quite expensive compared to SIDH, and the last generalization is purely theoretical.
-It is an interesting open question to find a ZK proof of knowledge for any of $\R[isog]$, $\R[deg]$ or $\R[SIDH]$ that works, reasonably efficiently, for any base field.
+We now discuss some of the limitations of the protocols above.
 
 \paragraph{Efficiency.}
-Replacing binary with ternary challenges in the protocol for $\R[deg]$ came at a cost: to achieve soundness error of $2^{-\lambda}$, one needs $\log(3) \lambda$ iterations, instead of $\lambda$ for DFJP.
-%Doubling the squares for $\R[SIDH]$ again doubled the cost, both in terms of bandwidth and efficiency.
-%Although ternary challenges feel unavoidable for $\R[deg]$, it is somewhat surprising they are also needed for $\R[SIDH]$.
-%It is an interesting question to find a 2-special sound ZK proof of knowledge for $\R[SIDH]$.
-
-The main problem is that all these protocols have large soundness error, and thus need to be repeated many times in parallel to be secure.
+Using ternary challenges comes at a cost: to achieve soundness error of $2^{-\lambda}$, one needs $\lambda/(\log_2(3)-1)$ iterations, each iteration computing one or more SIDH squares.
 A major open problem is whether there exist protocols for any of these relations with small soundness error, possibly exponentially small.
 SQISign, presented in the next section, will provide a beginning of an answer for the relation $\R[isog]$.
 
-\paragraph{Statistical ZK.}
-Because of the way they are constructed, SIDH-based protocols tend to leak information through the isogeny $\phi':E_2 \to E_3$ parallel to the witness $\phi$, which leads to the DSSP assumption. It is an open problem to obtain an efficient protocol that is statistically ZK.
+\paragraph{Statistical ZK for \R[deg].}
+Currently, there appears to be a tension between soundness and
+zero-knowledge for \R[deg]: the ``flipping the SIDH square'' technique
+of Section~\ref{sec:R-deg} is incompatible with the ``SIDH ladders''
+of Section~\ref{sec:from-comp-stat}.  Indeed, in an SIDH ladder the
+$D$-torsion is not anymore defined over the base field, and it is thus
+not possible to define the torsion bases $(P_2,Q_2),(P_3,Q_3)$ used to
+prove special soundness for \R[deg].
 
+It is an interesting question to find alternative representations for
+$D$-torsion bases that are compatible with SIDH ladders.
+\LDF{Actually, I think I know how to do this, but I'm not sure I want to do it!}
 
-While computational ZK is acceptable in many cases, it is preferable for several reasons to have statistical ZK.
-First, statistical ZK is a stronger guarantee of security.
-Second, computational ZK requires the introduction of computational assumptions that might not otherwise be needed in the system in which the ZK proof is being used.
-This makes it harder to evaluate the security of the system.
-Indeed, one of the reasons for the change from binary to ternary challenges in~\cite{DFDGZ21} is the requirement for plausibly hard computational assumptions.
+\paragraph{ZK for \R[isog]}
+All the protocols we presented so far appear to leak $\deg(\phi)$ to
+the verifier when responding with the isogeny $\phi'$ parallel to
+$\phi$. It seems thus difficult to make them zero-knowledge for
+\R[isog], rather than \R[deg].
 
-\SG{*** update here ***}
-
-Hence, it is important to find efficient protocols with statistical ZK for any of the NP-relations.
-Steps towards this are given in the next section.
-
-%\LDF{Disclosure: I have, with many co-authors, a statistically ZK protocol for $\R[deg]$ that works for any base field. We plan to submit to Eurocrypt and post to eprint at the same time. Depending on the timeline for this volume, we may want to cite this as "private communication".}
-%\SG{I am also working on this from (I think) a totally other approach. Let's pretend we don't know about these works for the moment.}
+Is is equally interesting to find a zero-knowledge protocol,
+computationally or statistically, for the \R[isog] relation.
