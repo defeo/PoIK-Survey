@@ -1,6 +1,6 @@
-The GPS and SQISign protocols we describe in this section work with the full isogeny graph (unlike the CSIDH-based protocols of Section~\ref{sec:CSIDH} which only consider curves defined over $\mathbb{F}_p$), and use the quaternion algorithms described in Section~\ref{sec:KLPT} to design a GMW-like protocol which does not rely on a SIDH diagram. 
-They provide steps towards a general solution to proving the relation $\R[isog]$.
-In particular, the protocols achieve statistical ZK, and no auxiliary points or other information are needed to obtain zero-knowledge.
+The GPS and SQISign protocols we describe in this section work with the full supersingular  isogeny graph (unlike the CSIDH-based protocols of Section~\ref{sec:CSIDH} which only consider curves defined over $\mathbb{F}_p$), and use the quaternion algorithms described in Section~\ref{sec:KLPT} to design a GMW-like protocol which does not rely on a SIDH diagram. 
+The GPS protocol provides steps towards a general solution to proving the relation $\R[isog]$.
+In particular, the GPS protocol achieves statistical ZK, and no auxiliary points or other information are needed to obtain zero-knowledge.
 
 
 
@@ -102,6 +102,7 @@ To increase the challenge space, the SQISign protocol by De Feo, Kohel, Leroux, 
 A naive version of this protocol is not secure: A dishonest prover could compute the commitment by computing a random isogeny $\psi'$ from $E_1$. Call $E_2$ the image curve. Since the verifier sends an isogeny $\varphi$ the prover can respond with $\varphi \circ \psi' : E_1 \to E_3$.
 The way to prevent this is for the verifier to check that $\hat{\varphi} \circ \sigma$ has cyclic kernel; we refer to~\cite{DFKLPW20} for the details.
 The protocol also imposes conditions on the isogeny $\phi:E_0\rightarrow E_1$, namely that $E_0$ has known endomorphism ring and that $\phi$ has ``medium'' prime degree.
+Finally, the protocol is only computationally ZK based on an ad hoc assumption.
 Hence SQISign is currently far from a general solution to the relation $\R[isog]$.
 
 Special soundness relies on the problem of computing an endomorphism of $E_1$, a problem equivalent to computing an isogeny between two random supersingular  curves~\cite{GPS20,Reductions18,Wes22}.

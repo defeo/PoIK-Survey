@@ -145,7 +145,8 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     \begin{itemize}
         \item $\Com_L$ and $\Com$ if $\chall = -1$,
         \item $\Com_R$ and $\Com$ if $\chall = 0$,
-        \item $\Com_L$ and $\Com_R$ if $\chall = 1$, and additionally sends $\ker(\phi')$;
+        \item $\Com_L$ and $\Com_R$ if $\chall = 1$, and additionally sends $\ker(\phi')$.
+        Note that in practice one usually sends a generator for $\ker(\phi')$, in which case this generator should be sampled uniformly from the set of all generators of the subgroup;
     \end{itemize}
     \item The verifier checks that the opened commitments are well formed, and:
     \begin{itemize}
@@ -172,21 +173,21 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
      $\Com \gets \Com(a,b; r)$, $\Com_L \gets \Com(E_2,P_2,Q_2; r_L)$, $\Com_R \gets \Com(E_3,P_3,Q_3; r_R)$   \\   
     \quad  & & \\
      &  \multicolumn{1}{c}{ $\xrightarrow{\quad \Com_L, \Com_R, \Com \quad } $ }  & \\
-     & & \quad $c \gets \{-1,0,1\}$ \\
-     & \multicolumn{1}{c}{ $\xleftarrow{\quad c \quad } $ } & \\ 
-     {\bf If} $c = -1$: $\resp \gets $ opening of $\Com_L, \Com$ & & \\
-     {\bf If} $c = 0$: $\resp \gets $ opening of $ \Com_R, \Com$ & & \\
-     {\bf If} $c = 1$: $\resp \gets $ opening of $\Com_L, \Com_R$, and  $\ker(\phi')$ & & \\
+     & & \quad $\chall \gets \{-1,0,1\}$ \\
+     & \multicolumn{1}{c}{ $\xleftarrow{\quad \chall \quad } $ } & \\ 
+     {\bf If} $\chall = -1$: $\resp \gets $ opening of $\Com_L, \Com$ & & \\
+     {\bf If} $\chall = 0$: $\resp \gets $ opening of $ \Com_R, \Com$ & & \\
+     {\bf If} $\chall = 1$: $\resp \gets $ opening of $\Com_L, \Com_R$, and  $\ker(\phi')$ & & \\
     & \multicolumn{1}{c}{ $\xrightarrow{\quad \resp \quad }$} & \\
     & & Check that opened commitments are well \\
     & &  formed, and
     $(P_2,Q_2)$ and/or $(P_3,Q_3)$ are $D$-torsion bases, and
     $3\nmid\gcd(a,b)$\\
-    & &  {\bf If} $c = -1$: \\
+    & &  {\bf If} $\chall = -1$: \\
     & &  \quad {\bf return} $E_0 = E_2/\langle [a]P_2 + [b]Q_2\rangle$ \\
-    & &  {\bf If} $c = 0$: \\ 
+    & &  {\bf If} $\chall = 0$: \\ 
     & &  \quad {\bf return} $E_1 =  E_3/\langle [a]P_3 + [b]Q_3\rangle  $  \\
-    & &  {\bf If} $c = 1$: \\
+    & &  {\bf If} $\chall = 1$: \\
     & & \quad Check that $\#\ker(\phi') = d$\\
     & & \quad Construct $\phi'$ from  $\ker(\phi')$ \\
     & &  \quad {\bf return} $E_3 =   E_2/\ker(\phi')$ \\
@@ -314,13 +315,13 @@ While this protocol is not anymore relevant for proper SIDH/SIKE, a simple tweak
 \label{sec:from-comp-stat}
 
 The last obstacle standing between the protocol above and a fully
-zero-knowledge one is the DSSP problem. Said otherwise, we would need
-to simulate the distribution of isogenies $\phi': E_2\to E_3$ parallel
+zero-knowledge one is the DSSP problem. To avoid such an assumption we would need
+to be able to simulate the distribution of isogenies $\phi': E_2\to E_3$ parallel
 to the witness $\phi: E_0\to E_1$, without having the knowledge of
 $\phi$.  This is difficult for the protocol of
 Figure~\ref{fig:R-deg-proof} because the pair $(E_2,E_3)$ is far from
 being well distributed among all pairs of supersingular curves.
-
+%
 More precisely, the isogenies $\phi$ and $\phi'$ are parallel with
 respect to an isogeny $\psi$ of degree $D \ll p$.  Because $D$ is so
 small, $\psi$ is almost always uniquely determined by $E_2$, and so is
@@ -329,7 +330,7 @@ $\phi'$ is as hard as computing $\phi$, thus we cannot expect a
 simulator to be able to do it, if we believe \R[deg] is hard.
 
 In a recent work~\cite{cryptoeprint:2022/1469}, a host of
-authors introduces a modification to the ternary-challenge DFJP
+authors introduce a modification to the ternary-challenge DFJP
 protocol that makes the distribution of $\phi':E_2\to E_3$ easy to
 simulate. The intuition is quite simple: by the expansion properties
 of the isogeny graph, if we increase the degree $D$ of $\psi$, the
@@ -338,14 +339,15 @@ expect the number to become so large that any isogeny $\phi'$
 of degree $d$ starting from $E_2$ becomes parallel to $\phi$ for many
 isogenies $\psi$.
 
-To prove this formally, they define a new $3$-isogeny graph whose
+To prove this formally, \cite{cryptoeprint:2022/1469} defines a new $3$-isogeny graph whose
 vertices are pairs $(E,G)$, where $E$ is a supersingular curve and
 $G\subset E$ a cyclic subgroup of order $d$. For example,
 $(E_0,\ker(\phi))$ represents $\phi$ (up to post-composition with an
 isomorphism), and $(E_2,\ker(\phi'))$ represents $\phi'$. Two vertices
 $(E,G)$ and $(E',G')$ are connected if there is a $3$-isogeny
-$\psi:E\to E'$ such that $\psi(G) = G'$. They call these \emph{isogeny
-  graphs with Borel level structure}, and prove they are Ramanujan,
+$\psi:E\to E'$ such that $\psi(G) = G'$. 
+Such graphs are called \emph{isogeny
+  graphs with Borel level structure} in~\cite{cryptoeprint:2022/1469}, and it is proved they are Ramanujan,
 which is exactly what is needed to make the intuition above work.
 
 \begin{figure}
@@ -361,22 +363,22 @@ which is exactly what is needed to make the intuition above work.
     $\Com_L \gets \Com(E_2; r_L)$, $\Com_R \gets \Com(E_3; r_R)$   \\   
     \quad  & & \\
      &  \multicolumn{1}{c}{ $\xrightarrow{\quad \Com_L, \Com_R\quad } $ }  & \\
-     & & \quad $c \gets \{-1,0,1\}$ \\
-     & \multicolumn{1}{c}{ $\xleftarrow{\quad c \quad } $ } & \\ 
-     {\bf If} $c = -1$:\\
+     & & \quad $\chall \gets \{-1,0,1\}$ \\
+     & \multicolumn{1}{c}{ $\xleftarrow{\quad \chall \quad } $ } & \\ 
+     {\bf If} $\chall = -1$:\\
      \quad $\resp \gets $ opening of $\Com_L$, and $\ker(\psi)$ & & \\
-     {\bf If} $c = 0$:\\
+     {\bf If} $\chall = 0$:\\
      \quad $\resp \gets $ opening of $ \Com_R$, and $\ker(\psi')$ & & \\
-     {\bf If} $c = 1$:\\
+     {\bf If} $\chall = 1$:\\
      \quad $\resp \gets $ opening of $\Com_L, \Com_R$, and  $\ker(\phi')$ & & \\
     & \multicolumn{1}{c}{ $\xrightarrow{\quad \resp \quad }$} & \\
     & & Check that opened commitments are well \\
     & &  formed and kernels have the expected size \\
-    & &  {\bf If} $c = -1$: \\
+    & &  {\bf If} $\chall = -1$: \\
     & &  \quad {\bf return} $E_2 = E_0/\ker(\psi)$ \\
-    & &  {\bf If} $c = 0$: \\ 
+    & &  {\bf If} $\chall = 0$: \\ 
     & &  \quad {\bf return} $E_3 =  E_1/\ker(\psi')$  \\
-    & &  {\bf If} $c = 1$: \\
+    & &  {\bf If} $\chall = 1$: \\
     & &  \quad {\bf return} $E_3 =   E_2/\ker(\phi')$ \\
     \end{tabularx}
   \end{adjustbox}  
@@ -385,8 +387,7 @@ which is exactly what is needed to make the intuition above work.
 \end{figure}
 
 Putting it all together yields the ``meta-protocol'' of
-Figure~\ref{fig:stat-zk}. For technical reasons that will be clear in
-a moment, this protocol cannot use the ``flipping the SIDH square''
+Figure~\ref{fig:stat-zk}. For technical reasons that will be explained below, this protocol cannot use the ``flipping the SIDH square''
 trick of Figure~\ref{fig:R-deg-proof}, and is thus only a proof of
 knowledge for \R[isog], like the DFJP protocol.  However, the response
 to challenge $c=1$ contains the degree $d=\deg(\phi)$, thus the
@@ -401,13 +402,18 @@ protocol can only be zero-knowledge for \R[deg], as the authors show.
   \R[deg].
 \end{proposition}
 
-There is an obstacle, though, to put this idea into practice.  The
+One obstacle to efficient implementation of this idea in practice is that the
 degree $D=3^m$ is way too large for the curves to have rational points
 of order $D$ defined over $\F_{p^2}$, or even over an extension field
 of polynomial degree.  Instead of using a single kernel generator to
-represent and compute isogenies, the authors observe that SIDH squares
+represent and compute isogenies, \cite{cryptoeprint:2022/1469} observes that SIDH squares
 can be efficiently ``glued'' together to form what they call
-\emph{SIDH ladders}:
+\emph{SIDH ladders}.
+The protocol response provides information about the intermediate curves and isogenies in the left or right hand sides of the ladder.
+This is the reason why the ``flipping the SIDH square'' idea cannot be used anymore.
+We picture such a ladder in Figure~\ref{fig:ladder}.
+
+\begin{figure}
 %
 \begin{equation*}
   \begin{tikzpicture}
@@ -435,6 +441,9 @@ can be efficiently ``glued'' together to form what they call
     (Eo0) edge node[right] {$\psi'$} (Eo1);
   \end{tikzpicture}
 \end{equation*}
+\caption{An SIDH ladder.} \label{fig:ladder}
+\end{figure}
+
 Additionally, one may glue SIDH squares both vertically and
 horizontally, thus freeing the protocol from the constraint of having
 the isogeny degrees divide $p+1$.
@@ -464,7 +473,7 @@ We now discuss some of the limitations of the protocols above.
 \paragraph{Efficiency.}
 Using ternary challenges comes at a cost: to achieve soundness error of $2^{-\lambda}$, one needs $\lambda/(\log_2(3)-1)$ iterations, each iteration computing one or more SIDH squares.
 A major open problem is whether there exist protocols for any of these relations with small soundness error, possibly exponentially small.
-SQISign, presented in the next section, will provide a beginning of an answer for the relation $\R[isog]$.
+SQISign, presented in Section~\ref{sec:SQIsign}, will provide a beginning of an answer for the relation $\R[isog]$.
 
 \paragraph{Statistical ZK for \R[deg].}
 Currently, there appears to be a tension between soundness and
@@ -477,7 +486,7 @@ prove special soundness for \R[deg].
 
 It is an interesting question to find alternative representations for
 $D$-torsion bases that are compatible with SIDH ladders.
-\LDF{Actually, I think I know how to do this, but I'm not sure I want to do it!}
+%\LDF{Actually, I think I know how to do this, but I'm not sure I want to do it!}
 
 \paragraph{ZK for \R[isog]}
 All the protocols we presented so far appear to leak $\deg(\phi)$ to
@@ -486,4 +495,4 @@ $\phi$. It seems thus difficult to make them zero-knowledge for
 \R[isog], rather than \R[deg].
 
 Is is equally interesting to find a zero-knowledge protocol,
-computationally or statistically, for the \R[isog] relation.
+computationally or statistically, for the \R[isog] relation in the case where the endomorphism ring is not known.

@@ -68,7 +68,9 @@ The special honest-verifier zero-knowledge property implies that an honest execu
 \begin{remark}
 Perfect ZK and statistical ZK provide an information-theoretic guarantee that a verifier learns nothing about the witness from the proof. Hence they are preferable to computational ZK.
 Computational ZK usually requires introducing new computational assumptions (typically decisional assumptions) beyond what is needed for the hardness of the relation, and this leads to increased complexity and possible weaknesses.
-The sigma protocols in the case of CSIDH have perfect or statistical ZK, but the sigma protocols for SIDH that we describe in Section~\ref{sec:SIDH-setting} and Section~\ref{sec:GPSandSQIsign} rely on computational assumptions. \CP{I partly disagree with what is written here: Section 6 has nothing to do with SIDH;  ZK proof underlying GPS has statistical ZK; statistical ZK for some CSIDH-based protocols only conjectural} \SG{Agree this remark needs to be tweaked. But the main point is correct, that perfect ZK is better than statistical ZK is better than comput ZK.}
+The sigma protocols in the case of CSIDH have perfect or statistical ZK.
+The original protocols for $\R[deg]$ that we describe in Section~\ref{sec:SIDH-setting} are onlycomputational ZK, but recent work surveyed in Section~\ref{sec:from-comp-stat} gives a statistical ZK protocol.
+In Section~\ref{sec:GPSandSQIsign}, the sigma protocol underlying GPS has statistical ZK, while SQISign requires a computational assumption for ZK.
 \end{remark}
 
 

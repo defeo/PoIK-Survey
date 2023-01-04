@@ -51,9 +51,6 @@ An elliptic curve is called \emph{supersingular} if $p \mid t$, where $q$ is a p
 It follows that $E$ is supersingular if $\#E(\F_q ) \equiv 1 \pmod{p} $, and in fact for supersingular curves one has $\#E( \F_{q^n}) \equiv 1 \pmod{p}$ for all $n \in \N$.
 
 
-\WB{reviewer says: Section 2.1 I think could use a little extra references to some of the statements; the crypto references are top notch but a Silverman here or there wouldn't be bad for the interested reader; same holds for section 2.2}
-\SG{DONE!}
-
 \subsection{Endomorphism rings and isogeny graphs}
 \label{sec:isog-graph}
 
@@ -74,12 +71,11 @@ When $E$ is ordinary the situation is much simpler, as $\End(E)$ is an order in 
 Our main focus in this survey is supersingular curves, as they are the ones currently used in cryptographic applications.
 
 For any supersingular elliptic curve $E$ in characteristic $p$ and any prime $\ell \ne p$, there are exactly $\ell+1$ isogenies of degree $\ell$ with $E$ as their domain. 
-\LDF{This sentence doesn't match quite well the ordinary / CSIDH case.}
+%\LDF{This sentence doesn't match quite well the ordinary / CSIDH case.}\SG{No. But it says supersingular.}
 %
 To any prime numbers $p$ and $\ell$, one can associate a \emph{supersingular isogeny graph} where each vertex corresponds to a supersingular curve (up to isomorphism) and each edge to an isogeny of degree $\ell$ between the corresponding curves. This is an $\ell+1$ regular graph, and it is undirected except, at most, at two exceptional points.
 %
-In the supersingular case, the graph is Ramanujan, meaning it has optimal expansion properties (see Section 4 of~\cite{CGL}). The expansion properties imply that any two curves are connected by a path of length  $O(\log p)$, and that random walks on the graph quickly converge to the uniform distribution. \LDF{The stationary distribution is actually slightly different from uniform, except when $p=1\mod 12$. I'd write "stationary" instead of "uniform", but maybe do you think the word "stationary" is too mysterious?}
-\SG{Probably better to say ``uniform apart from at most 2 special vertices''}
+In the supersingular case, the graph is Ramanujan, meaning it has optimal expansion properties (see Section 4 of~\cite{CGL}). The expansion properties imply that any two curves are connected by a path of length  $O(\log p)$, and that random walks on the graph quickly converge to the uniform distribution (apart from at most 2 special vertices).
 %
 All supersingular curves are defined over $\mathbb{F}_{p^2}$.
 %, and the graph is connected over $\mathbb{F}_{p^{12}}$. \CP{check this is the right extension} \LDF{Strange statement. Either the vertices are up to general isomorphism, and then the graph is connected over $\F_{p^2}$, or they are defined up to rational isomorphism, and then there are always at least two connected components.}
@@ -172,32 +168,8 @@ The bottom-right curve $E/\langle A,B\rangle$ can then be computed in two ways a
 This is as much as we need for defining proofs of knowledge of isogenies.
 % For SIDH, read on.
 
-\paragraph{Two-party construction of an SIDH square.}
-\LDF{Shall we completely remove this?}
-The goal in SIDH is to use $A$ and $B$ as the secrets of a key exchange, and $E/A$ and $E/B$ as the public keys.
-Then, $E/\langle A, B\rangle$ is used to derive the shared secret.
-Looking at Eq.~\eqref{eq:sidh-push}, though, there is not an obvious way to compute $E/\langle A,B\rangle$ without the knowledge of both secrets.
 
-The key idea in SIDH is to transmit some additional information along with $E/A$ and $E/B$.
-Let us describe how the party holding the secret $A$ (Alice) proceeds.
-Fix \emph{torsion bases} $\langle P_A, Q_A \rangle =  E[ 2^{n} ]$ and $\langle P_B, Q_B \rangle =  E[ 3^{m} ]$.
-Sample\footnote{This sampling is not uniform within the cyclic subgroups of $E[2^n]$, but is easier to implement, simplifies the exposition, and can be easily generalized.} $A$ as $A = \langle P_A + [\alpha] Q_A \rangle$ for some random $\alpha \in \Z/2^n\Z$.
-Alice computes and sends to Bob $(E/A, \phi_A(P_B), \phi_A(Q_B))$.
-Bob proceeds analogously.
-The extra points are sometimes called \emph{auxiliary points}.
 
-Upon receiving $(E/B, \psi_B(P_A), \psi_B(Q_A))$ from Bob, Alice computes
-\[\psi_B(A) = \langle \psi_B(P_A) + [\alpha]\psi_B(Q_A)\rangle \, ,\]
-obtaining $\ker(\phi_A')$.
-Then she computes $\phi_A'$, and finally $E/\langle A,B\rangle$.
-Bob proceeds analogously.
-
-%This key exchange scheme is secure against passive adversaries (i.e.\ adversaries who observe the messages between Alice and Bob but cannot change them) if it is difficult to recover $A$ from the knowledge of $(E/A, \phi_A(P_B), \phi_A(Q_B))$.
-%This problem was called CSSI in~\cite{JDF11}, it is equivalent to finding a witness for a statement in $\R[SIDH]$ defined previously.
-
-%\begin{definition}[Computational Supersingular Isogeny Problem (CSSI)]\label{def:cssi_prob} For fixed SIDH prime $p$, coprime integers $d,D$, base curve $E$, and $D$-torsion basis $P_B, Q_B \in E$, let $\phi_A : E \to E/A$ be an isogeny of degree $d$.
-%  Given an SIDH public key $(E/A, \phi_A(P_B), \phi_A(Q_B))$, find an isogeny $\chi : E \to E/A$ of degree $d$ mapping $(P_B,Q_B)$ to $(\phi_A(P_B), \phi_A(Q_B))$.
-% \end{definition}
 
 \paragraph{Other base fields.}
 The setup we presented above is the most common and the most efficient one for SIDH-like proofs of knowledge.
@@ -260,8 +232,7 @@ Let $E_0/\F_p$ be the supersingular curve defined by $y^2 = x^3 + x$.
 The endomorphism ring of $E_0$ is a maximal order in a quaternion algebra, but  the sub-ring of endomorphisms that are defined over $\F_p$ (we call this the $\F_p$-endomorphism ring) is isomorphic to a ring containing $\Z[\sqrt{-p}]$. 
 It is known that the ideal class group of the $\F_p$-endomorphism ring acts on the set of supersingular elliptic curves defined over $\F_p$, where each ideal corresponds to an isogeny~\cite{Waterhouse}.
 
-We make the reasonable assumption that the class group $\cl(\mathbb{Z}[\sqrt{-p}])$ is generated by the $r$ ideals $\fl_i = (\ell_i, \sqrt{-p} - 1)$ for $i$ from $1$ to $r$.
-\SG{I think typsetting looks clearer if we use $\fl_i = (\ell_i, 1 + \sqrt{-p})$ .}
+We make the reasonable assumption that the class group $\cl(\mathbb{Z}[\sqrt{-p}])$ is generated by the $r$ ideals $\fl_i = (\ell_i, 1 + \sqrt{-p} )$ for $i$ from $1$ to $r$.
 The class group $\cl(\mathbb{Z}[\sqrt{-p}])$ acts freely and transitively on the set $\Ell$ of $\F_p$-isomorphism classes of elliptic curves with $\F_p$-endomorphism ring $\Z[\sqrt{-p}]$. We can efficiently compute the action of the ideal classes $\overline{\fl}_1,\cdots,\overline{\fl}_r,$ and their inverses.
 
 For a vector $\bx \in \mathbb{Z}^r$ and $E \in \Ell$ we define \[ [\bx]E := \left( \prod_{i=1}^r {\overline{\fl}_i}^{x_i} \right) \star E  \, , \] where $\star$ is the action of the ideal class group.
