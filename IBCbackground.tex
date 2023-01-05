@@ -114,12 +114,11 @@ It is the basis for SIKE~\cite{sike2017}, an isogeny based KEM that was submitte
 Of course, due to recent cryptanalysis~\cite{CD22,MM22,Rob22} SIDH and SIKE are no longer considered secure.
 Nevertheless, it is necessary for some of the schemes mentioned in our paper to introduce some concepts from SIDH.
 
-
-The main technical ingredient of SIDH is a two-party protocol to securely construct a commutative square made of supersingular isogenies.
-These squares are used for the proofs of knowledge of supersingular isogenies in Section~\ref{sec:SIDH-setting}, but for the moment we shall describe SIDH.
-
-Let $p = 2^{n}  3^{m} f - 1 $ be a prime such that $2^{n} \approx 3^{m}$.
-Over $\F_{p^2}$, there exists an isogeny class of supersingular curves with group structure
+SIDH is built around a commutative square constructed as the \emph{push-out} of two isogenies of coprime degrees.
+We will use the same squares in the proofs of knowledge of supersingular isogenies in Section~\ref{sec:SIDH-setting}.
+For efficiency, SIDH restricts to pairs of isogenies of degree $2^{n}$ and $3^{m}$, where $2^{n} \approx 3^{m}$ and the finite field characteristic is an ``SIDH prime'' $p = 2^{n}  3^{m} f - 1 $.
+%
+Given such a prime, there exists over $\F_{p^2}$ an isogeny class of supersingular curves with group structure
 \[
    E(\F_{p^2}) \simeq (\Z /(p + 1)\Z)^2 \simeq (\Z /2^n\Z)^2 \times (\Z / 3^m \Z)^2 \times (\Z / f \Z)^2.
 \]
@@ -175,8 +174,9 @@ This is as much as we need for defining proofs of knowledge of isogenies.
 The setup we presented above is the most common and the most efficient one for SIDH-like proofs of knowledge.
 However the paper that introduced SIDH also considered primes of the form $p = \ell_A^n \ell_B^m f \pm 1$ for any small primes $\ell_A,\ell_B$.
 A variant named B-SIDH~\cite{10.1007/978-3-030-64834-3_15} used primes such that $p^2 - 1 = Nf$, where $N$ is a sufficiently large smooth integer.
-Finally, variants of the SIDH key exchange designed to resist the recent attacks consider $p = 4N - 1$, where $N$ is a product of sufficiently many distinct small primes~\cite{cryptoeprint:2022/1019,cryptoeprint:2022/1054}.
+Finally, variants of the SIDH key exchange designed to resist the recent attacks consider $p = 4N - 1$, where $N$ is a product of sufficiently many distinct small primes~\cite{cryptoeprint:2023/013}.
 In this work we will focus on the basic SIDH case, but the ideas are easily generalized to all other settings.
+Ultimately we will see in Section~\ref{sec:from-comp-stat} that, when efficiency is not a concern, SIDH-like commutative squares can be constructed in any characteristic.
 
 %\subsubsection{Adaptive attacks against SIDH.}
 %Some uses of SIDH require security not only against passive, but also active adversaries.

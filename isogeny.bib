@@ -34,9 +34,9 @@
 }
 
 @inproceedings{SeaSign,
-  author    = {Luca De Feo and
+  author    = {De Feo, Luca and
                Steven D. Galbraith},
-  title     = {SeaSign: Compact Isogeny Signatures from Class Group Actions},
+  title     = {{SeaSign:} Compact Isogeny Signatures from Class Group Actions},
   booktitle = {{EUROCRYPT} 2019},
   series    = {Lecture Notes in Computer Science},
   volume    = {11478},
@@ -106,7 +106,7 @@
 
 @article{sike2017,
   title={Supersingular isogeny key encapsulation},
-  author={David Jao and Reza Azarderakhsh and Matthew Campagna and Craig Costello and Luca {De Feo} and Basil Hess and Amir Jalali and Brian Koziel and Brian {LaMacchia} and Patrick Longa and Michael Naehrig and Joost Renes and Vladimir Soukharev and David Urbanik and Geovandro Pereira and Koray Karabina and Aaron Hutchinson},
+  author={David Jao and Reza Azarderakhsh and Matthew Campagna and Craig Costello and De Feo, Luca and Basil Hess and Amir Jalali and Brian Koziel and Brian {LaMacchia} and Patrick Longa and Michael Naehrig and Joost Renes and Vladimir Soukharev and David Urbanik and Geovandro Pereira and Koray Karabina and Aaron Hutchinson},
   journal={Submission to the NIST Post-Quantum Standardization project},
   url={https://sike.org/},
   year={2017}
@@ -115,7 +115,7 @@
 
 @InProceedings{JDF11,
   author="Jao, David
-  and {De Feo}, Luca",
+  and De Feo, Luca",
   title="Towards Quantum-Resistant Cryptosystems from Supersingular Elliptic Curve Isogenies",
   booktitle="Post-Quantum Cryptography",
   year="2011",
@@ -126,7 +126,7 @@
 }
 
 @article{DFJP14,
-  author = {{De Feo}, Luca and Jao, David and Pl\^{u}t, J\'er\^{o}me},
+  author = {De Feo, Luca and Jao, David and Pl\^{u}t, J\'er\^{o}me},
   title = {Towards quantum-resistant cryptosystems from supersingular elliptic curve isogenies},
   volume = {8},
   issn = {1862-2984},
@@ -494,7 +494,7 @@ MRREVIEWER = {Vasil\cprime  \={I}. Andr\={\i}\u{\i}chuk},
 
 
 @inproceedings{DFKLPW20,
-  author    = {Luca De Feo and
+  author    = {De Feo, Luca and
                David Kohel and
                Antonin Leroux and
                Christophe Petit and
@@ -513,7 +513,7 @@ MRREVIEWER = {Vasil\cprime  \={I}. Andr\={\i}\u{\i}chuk},
 
 
 @article{DFDGZ21,
-  author    = {Luca De Feo and
+  author    = {De Feo, Luca and
                Samuel Dobson and
                Steven D. Galbraith and
                Lukas Zobernig},
@@ -540,7 +540,7 @@ year = 2008
 }
 
 @article{SIDHjournal,
-  author    = {Luca De Feo and
+  author    = {De Feo, Luca and
                David Jao and
                J{\'{e}}r{\^{o}}me Pl{\^{u}}t},
   title     = {Towards quantum-resistant cryptosystems from supersingular elliptic
@@ -613,10 +613,11 @@ year = 2008
 }
 
 @article{SQIsign2.0,
-  author    = {Luca De Feo and
+  author    = {De Feo, Luca and
                Antonin Leroux and
+	       Patrick Longa and
                Benjamin Wesolowski},
-  title     = {New algorithms for the {Deuring} correspondence: {SQISign} twice as fast},
+  title     = {New algorithms for the {Deuring} correspondence: Towards practical and secure {SQISign} signatures},
   journal   = {{IACR} Cryptol. ePrint Arch.},
   pages     = {234},
   year      = {2022},
@@ -895,7 +896,7 @@ isbn="978-3-642-17373-8"
 
 @article{velusqrt,
   author    = {Daniel J. Bernstein and
-               Luca De Feo and
+               De Feo, Luca and
                Antonin Leroux and
                Benjamin Smith},
   title     = {Faster computation of isogenies of large prime degree},
@@ -926,7 +927,7 @@ In an ideal world the papers would be merged into one definitive version of the 
 
 
 @misc{X509,
- title = {Internet X.509 Public Key Infrastructure Certificate Management Protocol (CMP)},
+ title = {Internet {X.509} Public Key Infrastructure {Certificate Management Protocol (CMP)}},
  author = {C. Adams and S. Farrell and T. Kause and T. Mononen},
  publisher = {The Internet Society},
  howpublished = {https://www.rfc-editor.org/rfc/rfc4210},
@@ -948,22 +949,6 @@ series = {LNCS},
 volume = 4450,
 pages="458--475",
 isbn="978-3-540-71677-8"
-}
-
-@misc{cryptoeprint:2022/1019,
-      author = {Tomoki Moriya},
-      title = {Masked-degree {SIDH}},
-      howpublished = {Cryptology ePrint Archive, Paper 2022/1019},
-      year = {2022},
-      url = {https://eprint.iacr.org/2022/1019}
-}
-
-@misc{cryptoeprint:2022/1054,
-      author = {Fouotsa, Tako Boris},
-      title = {{SIDH} with masked torsion point images},
-      howpublished = {Cryptology ePrint Archive, Paper 2022/1054},
-      year = {2022},
-      url = {https://eprint.iacr.org/2022/1054}
 }
 
 @InProceedings{10.1007/978-3-030-95312-6_14,
@@ -994,4 +979,12 @@ title = {Quaternion Algebras},
 publisher = {Springer Graduate Text Math.},
 volume = 288,
 year = {2021}
+}
+
+@misc{cryptoeprint:2023/013,
+      author = {Fouotsa, Tako Boris and Tomoki Moriya and Christophe Petit},
+      title = {{M-SIDH} and {MD-SIDH:} countering {SIDH} attacks by masking information},
+      howpublished = {Cryptology ePrint Archive, Paper 2023/013},
+      year = {2023},
+      url = {https://eprint.iacr.org/2023/013}
 }

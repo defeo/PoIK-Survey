@@ -60,7 +60,7 @@ Indeed, thanks to~\cite[Lemma~1]{10.1007/978-3-030-95312-6_14}, three such pairs
 But $\lambda = \pm 1$ because $D = 3^m$, hence the attacks of Castryck and Decru~\cite{CD22}, Maino and Martindale~\cite{MM22}, and Robert~\cite{Rob22} apply and recover $\phi$.
 
 Note that $D = 3^m$ is important here.
-If, instead, $D$ is taken to contain many distinct prime factors, like in~\cite{cryptoeprint:2022/1019,cryptoeprint:2022/1054}, there are exponentially many possibilities for $\lambda$, and it is not currently known how to systematically apply the SIDH attacks to this case.
+If, instead, $D$ is taken to contain many distinct prime factors, like in~\cite{cryptoeprint:2023/013}, there are exponentially many possibilities for $\lambda$, and it is not currently known how to systematically apply the SIDH attacks to this case.
 Indeed, (roughly) following De Feo, Jao and Plût, we can prove that their protocol is zero-knowledge for the \R[M-SIDH] relation, and is thus a non-trivial proof of knowledge for instances where \R[M-SIDH] is still believed to be hard.
 
 There is also a second, less dramatic issue associated to the $\chall = 1$ case.
@@ -232,7 +232,7 @@ Note that a cheating prover can correctly answer any two of the challenges witho
 
 
 
-\paragraph{Sigma protocol for \R[SIDH].}
+\paragraph{Sigma protocols for \R[SIDH] and \R[M-SIDH].}
 In the same work~\cite{DFDGZ21}, De Feo, Dobson, Galbraith and Zobernig further modify the previous protocol to achieve a ZK proof of knowledge for the relation \R[SIDH], i.e.\ the knowledge of an SIDH secret key.
 The idea is, roughly, to run two correlated instances of the protocol, and to let the verifier check that they are both consistent with the torsion point information that is part of the public key.
 While this protocol is not anymore relevant for proper SIDH/SIKE, a simple tweak yields a proof of knowledge for \R[M-SIDH], which is non-trivial in cases where \R[M-SIDH] is thought to be hard.
