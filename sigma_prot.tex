@@ -3,7 +3,7 @@
 
 
 Many zero-knowledge proof protocols (e.g., Schnorr proofs) fall in the so-called framework of \emph{sigma protocols} for \emph{hard relations}. 
-A hard relation is one where there is an efficient algorithm to generate pairs $(x,w)$, but it is computationally infeasible to compute $w$ given only $x$.
+A \emph{hard relation} is one where there is an efficient algorithm to generate pairs $(x,w)$, but it is computationally infeasible to compute $w$ given only $x$.
 A sigma protocol is a type of proof of knowledge protocol between a prover $\PP$ and a verifier $\VV$, where the prover wants to convince the verifier that for some statement $x$ known to $\PP$ and $\VV$, he knows a witness $w$, such that $(x,w) \in \Rela$, for some relation $\Rela$. Informally, we want the sigma protocol to be complete, which means that an honest prover can always convince the verifier that he knows a witness; we want the sigma protocol to be sound, which means that if a prover does not know a witness, he can only convince the verifier with a limited probability, and we want the protocol to be zero-knowledge, which means that the prover does not reveal anything about the witness.
 %, except the fact that he knows a witness $w$ such that $(x,w) \in \Rela$. 
 More formally, a sigma protocol is defined as follows: 
@@ -69,7 +69,7 @@ The special honest-verifier zero-knowledge property implies that an honest execu
 Perfect ZK and statistical ZK provide an information-theoretic guarantee that a verifier learns nothing about the witness from the proof. Hence they are preferable to computational ZK.
 Computational ZK usually requires introducing new computational assumptions (typically decisional assumptions) beyond what is needed for the hardness of the relation, and this leads to increased complexity and possible weaknesses.
 The sigma protocols in the case of CSIDH have perfect or statistical ZK.
-The original protocols for $\R[deg]$ that we describe in Section~\ref{sec:SIDH-setting} are onlycomputational ZK, but recent work surveyed in Section~\ref{sec:from-comp-stat} gives a statistical ZK protocol.
+The original protocols for $\R[deg]$ that we describe in Section~\ref{sec:SIDH-setting} are only computational ZK, but recent work surveyed in Section~\ref{sec:from-comp-stat} gives a statistical ZK protocol.
 In Section~\ref{sec:GPSandSQIsign}, the sigma protocol underlying GPS has statistical ZK, while SQISign requires a computational assumption for ZK.
 \end{remark}
 

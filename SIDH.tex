@@ -390,7 +390,7 @@ Putting it all together yields the ``meta-protocol'' of
 Figure~\ref{fig:stat-zk}. For technical reasons that will be explained below, this protocol cannot use the ``flipping the SIDH square''
 trick of Figure~\ref{fig:R-deg-proof}, and is thus only a proof of
 knowledge for \R[isog], like the DFJP protocol.  However, the response
-to challenge $c=1$ contains the degree $d=\deg(\phi)$, thus the
+to challenge $\chall=1$ contains the degree $d=\deg(\phi)$, thus the
 protocol can only be zero-knowledge for \R[deg], as the authors show.
 
 \begin{proposition}
@@ -453,7 +453,8 @@ the isogeny degrees divide $p+1$.
 
 The Fiat-Shamir heuristic can be used to make sigma protocols non-interactive.
 %From the point of view of signatures it is most efficient to stick with the simplest protocols.
-The basic DFJP protocol from Section~\ref{sec:DFJP} has been used to construct a signature scheme in Yoo et al~\cite{YAJJS17} and~\cite{GPS20}, based on the hardness of the relation \R[isog]. \LDF{\R[SIDH]?}
+The basic DFJP protocol from Section~\ref{sec:DFJP} has been used to construct a signature scheme in Yoo et al~\cite{YAJJS17} and~\cite{GPS20}, based on the hardness of DSSP and SIDH key exchange.
+%the relation \R[isog]. \LDF{\R[SIDH]?}
 These schemes are no longer secure, due to the attacks on SIDH, but it is fairly straightforward to construct secure signatures based on any of the protocols with ternary challenges above.
 
 

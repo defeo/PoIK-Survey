@@ -16,7 +16,9 @@
                Lorenz Panny and
                Frederik Vercauteren},
   title     = {Faster {SeaSign} Signatures Through Improved Rejection Sampling},
-  booktitle = {PQCrypto},
+  booktitle = {PQCrypto 2019},
+  editor    = {Jintai Ding and
+               Rainer Steinwandt},
   series    = {Lecture Notes in Computer Science},
   volume    = {11505},
   pages     = {271--285},
@@ -38,6 +40,8 @@
                Steven D. Galbraith},
   title     = {{SeaSign:} Compact Isogeny Signatures from Class Group Actions},
   booktitle = {{EUROCRYPT} 2019},
+  editor    = {Yuval Ishai and
+               Vincent Rijmen},
   series    = {Lecture Notes in Computer Science},
   volume    = {11478},
   pages     = {759--789},
@@ -51,6 +55,7 @@
                Frederik Vercauteren},
   title     = {{CSI-FiSh}: Efficient Isogeny Based Signatures Through Class Group Computations},
   booktitle = {{ASIACRYPT} 2019},
+  editor    = {Steven D. Galbraith and Shiho Moriai},
   series    = {Lecture Notes in Computer Science},
   volume    = {11921},
   pages     = {227--247},
@@ -77,6 +82,8 @@
     title="On the Security of Supersingular Isogeny Cryptosystems",
     booktitle={{ASIACRYPT 2016}},
    series    = {Lecture Notes in Computer Science},
+   editor    = {Jung Hee Cheon and
+               Tsuyoshi Takagi},
   volume    = {10031},
   pages     = {63--91},
   year      = {2016}
@@ -119,6 +126,9 @@
   title="Towards Quantum-Resistant Cryptosystems from Supersingular Elliptic Curve Isogenies",
   booktitle="Post-Quantum Cryptography",
   year="2011",
+  editor    = {Bo{-}Yin Yang},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {7071},
   publisher="Springer",
   address="Berlin, Heidelberg",
   pages="19--34",
@@ -159,7 +169,11 @@ and Panny, Lorenz
 and Renes, Joost",
 title="{CSIDH}: An Efficient Post-Quantum Commutative Group Action",
 booktitle="ASIACRYPT 2018",
+editor    = {Thomas Peyrin and
+               Steven D. Galbraith},
 year="2018",
+series    = {Lecture Notes in Computer Science},
+  volume    = {11274},
 publisher="Springer",
 address="Cham",
 pages="395--427",
@@ -603,6 +617,10 @@ year = 2008
   title     = {Supersingular Isogeny Graphs and Endomorphism Rings: Reductions and
                Solutions},
   booktitle = {{EUROCRYPT} 2018},
+  editor    = {Jesper Buus Nielsen and
+               Vincent Rijmen},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {10822},
   pages     = {329--368},
   year      = {2018},
   url       = {https://doi.org/10.1007/978-3-319-78372-7\_11},
@@ -676,6 +694,8 @@ and Wang, Huaxiong",
 title="B-{SIDH}: {Supersingular Isogeny Diffie-Hellman} Using Twisted Torsion",
 booktitle="{ASIACRYPT} 2020",
 year="2020",
+series    = {Lecture Notes in Computer Science},
+  volume    = {12492},
 publisher="Springer International Publishing",
 address="Cham",
 pages="440--463",
@@ -908,22 +928,6 @@ isbn="978-3-642-17373-8"
   year      = {2020}
 }
 
-Now to discuss the submissions:
-#96	Breaking SIDH in polynomial time
-#137	A provable attack on SIDH
-#409	An efficient key recovery attack on SIDH
-
-#96 (obviously by Robert) has items 1, 2, 4. The paper gives a good overview. But the author is very clear that the work is influenced by all the previous work and not an independent discovery.
-
-#409 (which is obviously [CD22]) has item 1, the (bad) iterative attack, and the original version of the attack when End(E_0) known (not the improved version of item 3). So it is historically important as the first attack, but almost all of the content is obsolete already (though I admit that some of the obsolete parts may still have independent interest).
-
-#137 is the most delicate to assess. It has the word "provable" in the title, but this only applies to a small section about item 3 (the attack when End(E_0) known, in the form done by Wesolowski). The way the paper is written it sounds like Wesolowski has been added as an author, which would be a good thing. I realise the submissions are anonymous, but if Wesolowski is not an author of #137 then we have a serious problem! Strangely this paper does not contain any mention of the work of Kani, which is surprising. In summary, this paper has items 2 and 3, but most of the paper is a boring analysis about the case when End(E_0) is not known, that is obsolete due to [R22]. Again, some of the obsolete parts may still have independent interest to some readers, but they do not excite me.
-
-In short, none of the papers is a definitive work, but all of the papers have something that is relevant to the story.
-
-Of course I will post detailed individual reviews of the papers. Overall I think all papers can be accepted. Certainly #96 should be accepted. #409 is almost totally out-of-date as a paper, but it is clear that they deserve credit for the attack and so it should be accepted. #137 should be accepted if and only if Wesolowski is an author.
-
-In an ideal world the papers would be merged into one definitive version of the attack. But I do not think that is realistic for Eurocrypt. Maybe that will have to wait for a journal version.
 
 
 @misc{X509,
@@ -958,6 +962,8 @@ isbn="978-3-540-71677-8"
     booktitle = {Topics in Cryptology -- CT-RSA 2022},
     year = {2022},
     publisher = {Springer International Publishing},
+    series    = {Lecture Notes in Computer Science},
+  volume    = {13161},
     address = {Cham},
     pages = {322--344},
     abstract = {The SIDH key exchange is the main building block of SIKE, the only isogeny based scheme involved in the NIST standardization process. In 2016, Galbraith et al. presented an adaptive attack on SIDH. In this attack, a malicious party manipulates the torsion points in his public key in order to recover an honest party's static secret key, when having access to a key exchange oracle. In 2017, Petit designed a passive attack (which was improved by de Quehen et al. in 2020) that exploits the torsion point information available in SIDH public key to recover the secret isogeny when the endomorphism ring of the starting curve is known.},

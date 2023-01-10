@@ -68,7 +68,7 @@ The protocol can be made non-interactive and used as a signature scheme by the F
 A key source of inefficiency in GPS signatures (and other signatures based on isogenies) is the need to repeat the zero-knowledge protocol multiple times to reduce the soundness error. This comes from the fact that the protocol has single bit challenges.
 
 
-To increase the challenge space, the SQISign protocol by De Feo, Kohel, Leroux, Petit and Wesolowski modifies the basic GMW-based protocol as follows. Given a secret isogeny $\phi:E_0\rightarrow E_1$, the prover first computes a random isogeny $\psi:E_0\rightarrow E_2$ and commits to $E_2$. Then instead of challenging the prover with a single bit, the verifier computes and sends a third random isogeny $\varphi:E_2\rightarrow E_3$, sends it to the prover, and challenges the prover to compute an isogeny $\sigma:E_1\rightarrow E_3$ (see Figure\ref{fig:sqisign}).
+To increase the challenge space, the SQISign protocol by De Feo, Kohel, Leroux, Petit and Wesolowski modifies the basic GMW-based protocol as follows. Given a secret isogeny $\phi:E_0\rightarrow E_1$, the prover first computes a random isogeny $\psi:E_0\rightarrow E_2$ and commits to $E_2$. Then instead of challenging the prover with a single bit, the verifier computes and sends a third random isogeny $\varphi:E_2\rightarrow E_3$, sends it to the prover, and challenges the prover to compute an isogeny $\sigma:E_1\rightarrow E_3$ (see Figure~\ref{fig:sqisign}).
 
 \begin{figure}[h!]
     

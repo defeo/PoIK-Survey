@@ -173,7 +173,7 @@ The main motivation for zero-knowledge proofs of knowledge of an isogeny is in e
 Zero-knowledge proofs are also useful to defeat active attacks in cryptographic protocols. A passively secure protocol can indeed be turned into an actively secure one by requiring all parties to accompany each message they send with a zero-knowledge proof that the message has been generated correctly as specified by the protocol.
 %
 A recent example of this is given in ~\cite{cryptoeprint:2022/1469}.
-An earlier example of this (now obsolete) is that the \emph{SIDH protocol}~\cite{DFJP14} is vulnerable to the \emph{GPST attack}~\cite{GPST16}, in which an attacker deviates from the protocol to progressively learn the secret key of its victim. 
+An earlier example of this (now obsolete) is that the SIDH protocol~\cite{DFJP14} is vulnerable to the \emph{GPST attack}~\cite{GPST16}, in which an attacker deviates from the protocol to progressively learn the secret key of its victim. 
 %We give the details in Section~\ref{sec:SIDH}. 
 In the key encapsulation mechanism SIKE based on SIDH~\cite{sike2017}, this attack was defeated using a variant of the Fujisaki-Okamoto transform, but this involved generating and communicating ephemeral keys. In contrast, a solution based on a non-interactive proof of knowledge would have allowed static keys and non interactive key exchange.
 
@@ -219,7 +219,7 @@ While the above simple approach fails  as such, it still underlies all proofs of
     \item In CSIDH-based protocols as well as in GPS and SQISign signatures, the response isogeny in the above sketch is replaced by a canonical or randomized isogeny in the same class (i.e. connecting the same two curves). This is done efficiently using the KLPT algorithm in the GPS case~\cite{GPS20}, after a big precomputation in CSI-FiSh~\cite{CSI-FiSh}, or using blinding and rejection sampling in SeaSign~\cite{SeaSign}. On the other hand, SQISign~\cite{DFKLPW20} relies on an ad-hoc computational assumption to guarantee that the isogeny returned does not leak information on the secret.
 %
     \item In SIDH-like protocols, the triple of isogenies in the above sketch is replaced by a four-tuple corresponding to an SIDH commutative diagram, with the secret isogeny being one of the four edges (see Section~\ref{sec:DFJP}).  The response isogeny is made of either the only ``parallel'' isogeny in this commutative diagram, or one of the two ``orthogonal'' ones. %
-    Zero-knowledge relies on  ad hoc computational assumption, essentially stating that ``parallel'' pairs of isogenies are indistinguishable from random pairs with the same degrees.
+    Zero-knowledge relies on  an ad hoc computational assumption, essentially stating that ``parallel'' pairs of isogenies are indistinguishable from random pairs with the same degrees.
     However we also briefly mention in Section~\ref{sec:from-comp-stat} some recent work that allows statistical zero-knowledge.
 \end{itemize}
 
@@ -299,7 +299,7 @@ Additionally, we may use isogenies to instantiate the one-way function, e.g., th
 We stress that while this approach gives a feasibility result in theory,  it would not be practical: the 3-coloring problem obtained by translating any one of the relations of the introduction will be huge, and the zero-knowledge protocol for 3-coloring provided in~\cite{GMW} requires to commit to all vertices with a one-way function, and repeat this and other operations a number of times quadratic in the number of vertices.
 
 The research on more efficient generic ZK proof systems has been extremely active lately, producing several systems capable of proving real-world sized statements.
-However these tend to be based on stronger assumptions than the existence of one-way functions, and those that are quantum-secure are still relatively experimental.
+However these tend to be based on stronger assumptions than the existence of one-way functions, such as the Random Oracle Model. %, and those that are quantum-secure are still relatively experimental.
 
 In the context of proving knowledge of isogenies, generic proof systems have so far only been applied in~\cite{10.1007/978-3-030-99277-4_21}, with the goal of defining \emph{Verifiable Delay Functions} (VDF).
 We are not really interested in the application here, but we nevertheless quickly summarize the main techniques of~\cite{10.1007/978-3-030-99277-4_21}, as they may be useful in other contexts.
@@ -360,7 +360,7 @@ Adding zero-knowledge to a Sumcheck protocol can be done in a standard way using
 in~\cite{10.1007/978-3-030-99277-4_21} because VDFs do not require it.
 
 The concrete cost of the non-ZK protocol above is not analyzed in~\cite{10.1007/978-3-030-99277-4_21}, and adding post-quantum polynomial commitments to it is likely not cheap.
-It is an interesting question to analyze the actual cost of proving in ZK knowledge of an isogeny using a Sumcheck protocol.
+It is an interesting question to analyze the actual cost of proving knowledge of an isogeny in ZK using a Sumcheck protocol.
 It is equally interesting to explore the application of other generic proof systems to isogenies.
 
 
@@ -480,7 +480,7 @@ In the CSIDH setting we have signature schemes that have improved soundness erro
 The only example of a protocol with negligible soundness error for a single round is SQISign.
 Any progress on reducing the soundness error would have major implications on the efficiency of isogeny signatures.
 
-Another major open problem is to design a protocol for the relation $\R[isog]$ that can be applied when $End(E)$ not known and that does not leak the degree of the witness. The GPS scheme~\cite{GPS20} only works when $End(E)$ known, while SQISign is currently not a proof of knowledge.
+Another major open problem is to design a protocol for the relation $\R[isog]$ that can be applied when $\End(E)$ is not known and that does not leak the degree of the witness. The GPS scheme~\cite{GPS20} only works when $\End(E)$ is known, while SQISign is currently not a proof of knowledge.
 
 
 Further open questions that we have discussed in the paper include:
