@@ -43,7 +43,7 @@ However they note that revealing $\phi'$ or $(\psi,\psi')$ only appears to leak 
     \item The prover chooses a random cyclic group $G = \ker(\psi)$ of order $D=3^m$, sets $E_2=E_0/G$ and $E_3 = E_1/\phi(G)$ and so constructs the commutative diagram~\eqref{eq:sidh-pok}, and sends $(E_2,E_3)$ to the verifier;
     \item The verifier challenges with a random bit $\chall\in\{0,1\}$;
     \item The prover responds with $(\ker(\psi),\ker(\psi'))$ if $\chall=0$, and with $\ker(\phi')$ otherwise;
-    \item If $\chall=0$ the verifier checks that $E_2 \simeq E_0/\ker(\psi)$ and $E_3 \simeq E_1/\ker(\psi')$, otherwise it checks that $E_3 \simeq E_2/\ker(\phi')$.
+    \item If $\chall=0$ the verifier checks that $E_2 \cong E_0/\ker(\psi)$ and $E_3 \cong E_1/\ker(\psi')$, otherwise it checks that $E_3 \cong E_2/\ker(\phi')$.
 \end{enumerate}
 
 There are two issues with the above idea.
@@ -135,10 +135,10 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
 \begin{enumerate}
     \item The prover:
     \begin{itemize}
-        \item chooses a random cyclic group $G = \ker(\psi)$ in $E_0$ of order $D=3^m$, constructs the commutative diagram~\eqref{eq:sidh-pok}, 
-        \item chooses a random basis $P_2,Q_2$ of $E_2[D]$, computes $P_3 = \phi'(P_2), Q_3 = \phi'(Q_2)$,
-        \item computes integers $(a,b)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$,
-        \item sends commitments $\Com_L = \Com(E_2,P_2,Q_2; r_L)$, $\Com_R = \Com(E_3,P_3,Q_3; r_R)$ and $\Com = \Com(a,b; r)$ to the verifier;
+        \item Chooses a random cyclic group $G = \ker(\psi)$ in $E_0$ of order $D$, and constructs the commutative diagram~\eqref{eq:sidh-pok} (meaning: constructs $\phi' : E_2 \to E_3$ with $\ker(\phi') = \psi( \ker( \phi ))$).
+        \item Chooses a random basis $P_2,Q_2$ of $E_2[D]$, computes $P_3 = \phi'(P_2), Q_3 = \phi'(Q_2)$.
+        \item Computes integers $(a,b)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$.
+        \item Sends commitments $\Com_L = \Com(E_2,P_2,Q_2; r_L)$, $\Com_R = \Com(E_3,P_3,Q_3; r_R)$ and $\Com = \Com(a,b; r)$ to the verifier;
     \end{itemize}
     \item The verifier challenges with a random value $\chall\in\{-1,0,1\}$;
     \item The prover opens:
@@ -162,15 +162,15 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     \centering
     \begin{adjustbox}{minipage=1.3\linewidth,fbox,center}
     \begin{tabularx}{\textwidth}{bsb}
-    \multicolumn{1}{c}{{\bf Prover}(($E_0,E_1,d=2^n,D=3^m,\phi$))} &  & \multicolumn{1}{c}{{\bf Verifier}($E_0,E_1,d=2^n,D=3^m$)} \\
+    \multicolumn{1}{c}{{\bf Prover}(($E_0,E_1,d,D),\phi$)} &  & \multicolumn{1}{c}{{\bf Verifier}($E_0,E_1,d,D$)} \\
     \\
     Choose random cyclic group $G \subseteq E_0$ of order $D$ \\
     Define $\psi : E_0 \to E_2$ with kernel $G$ and construct the diagram~\eqref{eq:sidh-pok} \\
     Choose a random basis $P_2,Q_2$ of $E_2[D]$ \\
-     $P_3 \gets \phi'(P_2), Q_3 \gets \phi'(Q_2)$ \\
+    Set $P_3 \gets \phi'(P_2), Q_3 \gets \phi'(Q_2)$ \\
      Compute integers $(a,b)$ such that $\ker(\widehat\psi) = \langle [a]P_2 + [b]Q_2\rangle$ \\
      Choose random $r_L$, $r_R$, $r$ \\
-     $\Com \gets \Com(a,b; r)$, $\Com_L \gets \Com(E_2,P_2,Q_2; r_L)$, $\Com_R \gets \Com(E_3,P_3,Q_3; r_R)$   \\   
+     Set $\Com \gets \Com(a,b; r)$, $\Com_L \gets \Com(E_2,P_2,Q_2; r_L)$, $\Com_R \gets \Com(E_3,P_3,Q_3; r_R)$   \\   
     \quad  & & \\
      &  \multicolumn{1}{c}{ $\xrightarrow{\quad \Com_L, \Com_R, \Com \quad } $ }  & \\
      & & \quad $\chall \gets \{-1,0,1\}$ \\
@@ -182,7 +182,7 @@ Putting all ideas together gives the following protocol (also see Figure~\ref{fi
     & & Check that opened commitments are well \\
     & &  formed, and
     $(P_2,Q_2)$ and/or $(P_3,Q_3)$ are $D$-torsion bases, and
-    $3\nmid\gcd(a,b)$\\
+    $\gcd(D,a,b)=1$\\
     & &  {\bf If} $\chall = -1$: \\
     & &  \quad {\bf return} $E_0 = E_2/\langle [a]P_2 + [b]Q_2\rangle$ \\
     & &  {\bf If} $\chall = 0$: \\ 
@@ -235,7 +235,7 @@ Note that a cheating prover can correctly answer any two of the challenges witho
 \paragraph{Sigma protocols for \R[SIDH] and \R[M-SIDH].}
 In the same work~\cite{DFDGZ21}, De Feo, Dobson, Galbraith and Zobernig further modify the previous protocol to achieve a ZK proof of knowledge for the relation \R[SIDH], i.e.\ the knowledge of an SIDH secret key.
 The idea is, roughly, to run two correlated instances of the protocol, and to let the verifier check that they are both consistent with the torsion point information that is part of the public key.
-While this protocol is not anymore relevant for proper SIDH/SIKE, a simple tweak yields a proof of knowledge for \R[M-SIDH], which is non-trivial in cases where \R[M-SIDH] is thought to be hard.
+While this protocol is not anymore relevant for SIDH/SIKE, a simple tweak yields a proof of knowledge for \R[M-SIDH] (see Basso~\cite{Bas23}), which is non-trivial in cases where \R[M-SIDH] is thought to be hard.
 
 %This protocol can be used, for example, to counter the GPST adaptive attack, thus yielding a secure non-interactive key exchange based on SIDH.
 %
@@ -472,7 +472,7 @@ These schemes are no longer secure, due to the attacks on SIDH, but it is fairly
 We now discuss some of the limitations of the protocols above.
 
 \paragraph{Efficiency.}
-Using ternary challenges comes at a cost: to achieve soundness error of $2^{-\lambda}$, one needs $\lambda/(\log_2(3)-1)$ iterations, each iteration computing one or more SIDH squares.
+A 3-special sound protocol comes at a cost: to achieve soundness error of $2^{-\lambda}$, one needs $\lambda/(\log_2(3)-1)$ iterations, each iteration computing one or more SIDH squares.
 A major open problem is whether there exist protocols for any of these relations with small soundness error, possibly exponentially small.
 SQISign, presented in Section~\ref{sec:SQIsign}, will provide a beginning of an answer for the relation $\R[isog]$.
 
@@ -495,5 +495,4 @@ the verifier when responding with the isogeny $\phi'$ parallel to
 $\phi$. It seems thus difficult to make them zero-knowledge for
 \R[isog], rather than \R[deg].
 
-Is is equally interesting to find a zero-knowledge protocol,
-computationally or statistically, for the \R[isog] relation in the case where the endomorphism ring is not known.
+%Is is equally interesting to find a zero-knowledge protocol, computationally or statistically, for the \R[isog] relation in the case where the endomorphism ring is not known.

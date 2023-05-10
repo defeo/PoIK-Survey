@@ -108,10 +108,10 @@ University of Birmingham and Université libre de Bruxelles.  \email{christophe.
 
 \begin{abstract}
 Isogeny-based cryptography is an active area of research in post-quantum public key cryptography.
-The problem of proving knowledge of an isogeny is a natural problem that has several applications in isogeny-based cryptography, such as to allow users to demonstrate that they are behaving honestly in a protocol.
+The problem of proving knowledge of an isogeny is a natural problem that has several applications in isogeny-based cryptography, such as allowing users to demonstrate that they are behaving honestly in a protocol.
 It is also related to isogeny-based digital signatures.
-Over the last few years there have been a number of advances in this area, but there are still many open problems.
-The aim of this paper is to give an overview of the topic, and to highlight some open problems and directions for future research.
+Over the last few years, there have been a number of advances in this area, but there are still many open problems.
+This paper aims to give an overview of the topic and highlight some open problems and directions for future research.
 \end{abstract}
 
 \keywords{isogeny, post-quantum cryptography, zero-knowledge}
@@ -122,19 +122,19 @@ The aim of this paper is to give an overview of the topic, and to highlight some
 
 
 Let $E_0$ and $E_1$ be elliptic curves.
-An isogeny is a map $\phi : E_0 \to E_1$ that is a morphism in the sense of algebraic geometry (it maps points on the curve $E_0$ to points on the curve $E_1$) and also a morphism in the sense of groups (a group homomorphism).
+An isogeny is a mapping $\phi : E_0 \to E_1$  (see Section~\ref{sec:EC-and-isogeny} for technical background). In particular, an isogeny is a group homomorphism.
 If there is an isogeny $\phi : E_0 \to E_1$ then there is also an isogeny $\hat{\phi} : E_1 \to E_0$, called the dual isogeny.
 Two curves are called isogenous if there is an isogeny between them.
 Given two isogenous elliptic curves $E_0$ and $E_1$ over a finite field $\F_q$ it is believed to be computationally hard (even for quantum computers) to compute an isogeny between them.
 A natural problem is therefore for an entity to prove that they know an isogeny $\phi : E_0 \to E_1$ between two public elliptic curves $E_0$ and $E_1$ without revealing the isogeny.
 
-Tate's isogeny theorem (due to Deuring in the elliptic curve case) states that two elliptic curves $E_0$ and $E_1$ over a finite field $\F_q$ are isogenous over $\F_q$ if $\#E_0( \F_q ) = \#E_1(\F_q)$. Since there are  polynomial time algorithms to compute $\#E_0( \F_q )$ it follows that one can determine in polynomial time whether two curves are isogenous. However, this is not the end of the story, since for cryptographic applications one often wants to prove knowledge of an isogeny between $E_0$ and $E_1$, possibly with some additional restrictions, e.g., on its degree.
+Tate's isogeny theorem (due to Deuring in the elliptic curve case) states that two elliptic curves $E_0$ and $E_1$ over a finite field $\F_q$ are isogenous over $\F_q$ if $\#E_0( \F_q ) = \#E_1(\F_q)$. Since there are polynomial time algorithms to compute $\#E_0( \F_q )$ it follows that one can determine in polynomial time whether two curves are isogenous. However, this is not the end of the story, since for cryptographic applications one often wants to prove knowledge of an isogeny between $E_0$ and $E_1$, possibly with some additional restrictions, e.g., on its degree.
 
-Indeed, there are (at least) six NP-relations that have been studied in the setting of isogeny-based cryptography.
+Indeed, there are (at least) six relations that have been studied in the setting of isogeny-based cryptography.
 These relations are defined as sets of pairs $(x,w)$ where $x$ is the \emph{statement} and $w$ is a \emph{witness}.
 Each relation defines a \emph{language} $L = \{ x : \exists w, (x,w) \in \R \}$.
-For simplicity we define the relations for a fixed field $\F_q$.
-In each of the relations below, $E_0,E_1$ denote elliptic curves and $\phi$ denotes an isogeny (the witness), all defined over $\F_q$.
+For simplicity, we define the relations for a fixed field $\F_q$.
+In each of the relations below $E_0,E_1$ denote elliptic curves (usually supersingular in this paper) and $\phi$ denotes an isogeny (the witness), all defined over $\F_q$.
 We implicitly assume that witnesses can be represented in polynomial space and evaluated in polynomial time.
 \begin{align*}
     \R[triv] &= \bigl\{ \bigl((E_0, E_1), \bot \bigr) \,\big\vert\, \#E_0( \F_q ) = \#E_1(\F_q), \text{ so } E_0, E_1 \text{ isogenous over } \F_q \bigr\};\\
@@ -149,7 +149,8 @@ We implicitly assume that witnesses can be represented in polynomial space and e
               &\qquad \text{ and } P_1 = \lambda\phi(P_0), Q_1 = \lambda\phi(Q_0) \\
               &\qquad \text{ and } \lambda^2 = 1 \mod D \\
               &\qquad \text{ where } E_0[D] = \langle P_0, Q_0\rangle  \text{ and } \gcd(D,d) = 1 \bigr\} ;\\
-    \R[CSIDH] &= \text{See Definition~\ref{defn:R-CSIDH} in Section~\ref{sec:CSIDH}.}
+    \R[CSIDH] &= \bigl\{ \bigl((E_0, E_1 ), \phi \bigr) \big\vert\, E_0,E_1 \text{ supersingular}, \\
+              &\qquad  j(E_0), j(E_1) \in \F_p, \, \phi \text{ defined over } \F_p \bigr\} \\ & \qquad \text{See Definition~\ref{defn:R-CSIDH} in Section~\ref{sec:CSIDH}.}
 \end{align*}
 %For precise details of \R[CSIDH] see Definition~\ref{defn:R-CSIDH} in Section~\ref{sec:CSIDH}. \CP{$E$ not defined. Maybe write $\R[CSIDH]  = \bigl\{ \bigl((E_0, E_1),\phi \bigr) \,\big\vert\, E_0,E_1,\phi \text{ all defined over } \mathbb{F}_p\bigr\}$} \LDF{\R[CSIDH] looks an awful lot like \R[isog]: the fact the isogeny is defined over the base field is anyway implicit in all relations.}
 
@@ -175,13 +176,13 @@ Zero-knowledge proofs are also useful to defeat active attacks in cryptographic 
 A recent example of this is given in ~\cite{cryptoeprint:2022/1469}.
 An earlier example of this (now obsolete) is that the SIDH protocol~\cite{DFJP14} is vulnerable to the \emph{GPST attack}~\cite{GPST16}, in which an attacker deviates from the protocol to progressively learn the secret key of its victim. 
 %We give the details in Section~\ref{sec:SIDH}. 
-In the key encapsulation mechanism SIKE based on SIDH~\cite{sike2017}, this attack was defeated using a variant of the Fujisaki-Okamoto transform, but this involved generating and communicating ephemeral keys. In contrast, a solution based on a non-interactive proof of knowledge would have allowed static keys and non interactive key exchange.
+In the key encapsulation mechanism SIKE based on SIDH~\cite{sike2017}, this attack was defeated using a variant of the Fujisaki-Okamoto transform, but this involved generating and communicating ephemeral keys. In contrast, a solution based on a non-interactive proof of knowledge would have allowed static keys and non-interactive key exchange.
 
 
 
 Proofs of knowledge have other applications as well, most notably they give digital signature schemes through the Fiat-Shamir transform and variants. 
 %
-The RSA and ECDSA signature schemes currently in use are based on the hardness of integer factoring and the elliptic curve discrete logarithm problem, which will be solved efficiently when large scale quantum computers are available.
+The RSA and ECDSA signature schemes currently in use are based on the hardness of integer factoring and the elliptic curve discrete logarithm problem, which will be solved efficiently when large-scale quantum computers are available.
 It is important to develop new signature schemes with post-quantum security.
 %
 Isogeny-based cryptography is believed to resist quantum computers, hence it is a natural and important question to build efficient digital signatures from isogeny problems. A natural way to build those signatures is to first develop zero-knowledge proofs of knowledge for isogeny relations.
@@ -198,7 +199,7 @@ Isogeny-based cryptography is believed to resist quantum computers, hence it is 
 
 
                
-To introduce some of the challenges in developing zero-knowledge proofs for the relations above, we first describe a simple idea for the second relation, namely to adapt the classic \emph{Goldreich, Micali, Wigderson (GMW)} zero-knowledge proof of graph isomorphism~\cite{GMW} (see Section~\ref{sec:GMW}), and we explain why a straightforward adaptation does not work. 
+To introduce some of the challenges in developing zero-knowledge proofs for the relations above, we first describe a simple idea for the second relation, namely to adapt the classic \emph{Goldreich, Micali, Wigderson (GMW)} zero-knowledge proof of graph isomorphism~\cite{GMW} (see Section~\ref{sec:GMW}). We then explain why a straightforward adaptation does not work. 
 
 Let $\phi : E_0 \to E_1$ be an $\F_q$-isogeny, which is the witness known to the prover.
 The natural idea is to choose a random isogeny $\psi : E_1 \to E_2$.
@@ -208,7 +209,7 @@ The challenger sends a challenge $\chall \in \{0,1\}$.
 When $\chall = 0$ the prover responds with a description of $\psi$, and when $\chall=1$ the prover responds with $\rho := \psi \circ \phi$.
 The verifier checks that the response is an isogeny from $E_{1-\chall}$ to $E_2$, and accepts if this is the case.
 
-One might think this could be zero knowledge, since $E_2$ is distributed uniformly and so can be simulated without knowing the witness.
+One might think this could be zero-knowledge since $E_2$ is distributed uniformly and so can be simulated without knowing the witness.
 But the problem is that $\psi \circ \phi$ can leak the witness $\phi$.
 The details depend on how the isogeny $\psi \circ \phi$ is represented (see Section~\ref{sec:EC-and-isogeny}). If it is represented as a sequence of $j$-invariants, then the receiver will note that $j(E_1)$ appears on the list and so the sequence of $j$-invariants up to that point represents the isogeny $\phi$.
 If it is represented using a kernel point (or a set of generators for the kernel) then the leakage depends on whether $\deg(\phi)$ is known (or guessable) and how this relates to $\deg(\psi)$. In any case, because the composition factors through $E_1$ we have $\ker(\phi) \subseteq \ker( \rho )$.
@@ -219,20 +220,20 @@ While the above simple approach fails  as such, it still underlies all proofs of
     \item In CSIDH-based protocols as well as in GPS and SQISign signatures, the response isogeny in the above sketch is replaced by a canonical or randomized isogeny in the same class (i.e. connecting the same two curves). This is done efficiently using the KLPT algorithm in the GPS case~\cite{GPS20}, after a big precomputation in CSI-FiSh~\cite{CSI-FiSh}, or using blinding and rejection sampling in SeaSign~\cite{SeaSign}. On the other hand, SQISign~\cite{DFKLPW20} relies on an ad-hoc computational assumption to guarantee that the isogeny returned does not leak information on the secret.
 %
     \item In SIDH-like protocols, the triple of isogenies in the above sketch is replaced by a four-tuple corresponding to an SIDH commutative diagram, with the secret isogeny being one of the four edges (see Section~\ref{sec:DFJP}).  The response isogeny is made of either the only ``parallel'' isogeny in this commutative diagram, or one of the two ``orthogonal'' ones. %
-    Zero-knowledge relies on  an ad hoc computational assumption, essentially stating that ``parallel'' pairs of isogenies are indistinguishable from random pairs with the same degrees.
-    However we also briefly mention in Section~\ref{sec:from-comp-stat} some recent work that allows statistical zero-knowledge.
+    Zero-knowledge relies on an ad hoc computational assumption, essentially stating that ``parallel'' pairs of isogenies are indistinguishable from random pairs with the same degrees.
+    However, we briefly mention in Section~\ref{sec:from-comp-stat} some recent work that allows statistical zero-knowledge.
 \end{itemize}
 
     Note that we will later introduce CSIDH-based protocols separately from GPS and SQISign because the two sets of protocols differ significantly in the mathematical machinery that they use.
 
-\subsubsection{Soundness.} In addition to the zero-knowledge issue, the above protocol  only offers limited soundness guarantees, as a cheating prover can correctly predict the challenge bit with probability one half. 
+\subsubsection{Soundness.} In addition to the zero-knowledge issue, the simple protocol above only offers limited soundness guarantees, as a cheating prover can correctly predict the challenge bit with a probability of one out of two. 
 %
 A simple solution to this is iterating the protocol; this however brings a large efficiency cost, both in proof/signature sizes and in computation times.
 One of the biggest open problems in this area is to develop more efficient protocols by lowering the probability of successful cheating (the \emph{soundness error}) by a user who does not know a witness.
 %
 In SeaSign and CSI-FiSh signatures those costs can be traded for larger key sizes by relying on multiple instances of the basic isogeny problem.
 %
-Currently the most efficient scheme is the SQISign protocol. It uses a large challenge space, and may therefore only be run once, resulting in very short proofs/signatures.
+Currently, the most efficient scheme is the SQISign protocol. It uses a large challenge space, and may therefore only be run once, resulting in very short proofs/signatures.
 
 %The original protocol in~\cite{SIDHjournal} had serious soundness issues which were later addressed in~\cite{DFDGZ21}. \CP{remove last sentence? (related to sidh)}
 %by adding torsion point information and somehow ``duplicating the protocol''.
@@ -253,14 +254,14 @@ Currently the most efficient scheme is the SQISign protocol. It uses a large cha
 
 \subsubsection{Outline.}
 
-The aim of our paper is to explore these topics in detail and to list a number of open problems and directions for future research.
+Our paper aims to explore these topics in detail and to list some open problems and directions for future research.
 Our focus is exactly on the issues raised above: How to achieve (and prove) soundness; what computational assumptions are required for zero-knowledge; how to get more efficient systems.
 
 We provide background on isogeny-based cryptography and zero-knowledge proofs of knowledge in Sections~\ref{sec:IBC} and~\ref{sec:ZK} respectively. 
 %
 We then describe proofs based on group actions (SeaSign, CSI-FiSh) in Section~\ref{sec:CSIDH-setting}, proofs for $\R[deg]$ based on ideas from SIDH in Section~\ref{sec:SIDH-setting}, and finally GPS and SQISign in Section~\ref{sec:GPSandSQIsign}.
 %
-Specifically we discuss proofs for the relation $ \R[isog] $ in Section~\ref{sec:DFJP} and Section~\ref{sec:GPSproof}, and for the relation $\R[deg]$ in Section~\ref{sec:R-deg}.
+Specifically, we discuss proofs for the relation $ \R[isog] $ in Section~\ref{sec:DFJP} and Section~\ref{sec:GPSproof}, and for the relation $\R[deg]$ in Section~\ref{sec:R-deg}.
 %, and for $\R[SIDH]$ in Section~\ref{sec:R-SIDH}.
 Proofs for the CSIDH relation $\R[CSIDH]$ are discussed in Section~\ref{sec:CSIDH-setting}.
 %
@@ -269,7 +270,7 @@ We conclude the paper and list open problems in Section~\ref{sec:conclusion}.
 
 \subsubsection{Ackowledgements.}
 
-Steven Galbraith is funded by NZ Government MBIE Catalyst Fund UOAX1933. Ward Beullens holds Junior Post-Doctoral fellowship 1S95620N from the Research Foundation Flanders (FWO).
+Steven Galbraith is funded by NZ Government MBIE Catalyst Fund UOAX1933. Ward Beullens holds a Junior Post-Doctoral fellowship 1S95620N from the Research Foundation Flanders (FWO).
 %
 Christophe Petit was supported by EPSRC award EP/V011324/1.
 
@@ -291,22 +292,23 @@ In this section, we recall standard definitions for sigma protocols (an importan
 
 \subsection{Generic solutions}
 
-It is well-known since Goldreich, Micali and Widgerson~\cite{GMW} that any NP statement can be proved in zero-knowledge, assuming the existence of one-way functions. This is achieved by reducing the NP statement to an instance of 3-coloring, and applying a zero-knowledge protocol for the 3-coloring problem.
+It is well-known since Goldreich, Micali, and Widgerson~\cite{GMW} that any NP statement can be proved in zero-knowledge, assuming the existence of one-way functions. This is achieved by reducing the NP statement to an instance of 3-coloring and applying a zero-knowledge protocol for the 3-coloring problem.
 
-All the statements listed in the introduction are in NP (at least if we restrict the isogeny degrees $d$ to be smooth), thus we trivially obtain zero-knowledge proofs for each them.
+All the statements listed in the introduction are in NP (at least if we restrict the isogeny degrees $d$ to be smooth), thus we trivially obtain zero-knowledge proofs for each of them.
 Additionally, we may use isogenies to instantiate the one-way function, e.g., the CGL hash function~\cite{CGL}, thus basing the security of the zero-knowledge proof entirely on the computational hardness of computing isogenies between random supersingular elliptic curves.
 
-We stress that while this approach gives a feasibility result in theory,  it would not be practical: the 3-coloring problem obtained by translating any one of the relations of the introduction will be huge, and the zero-knowledge protocol for 3-coloring provided in~\cite{GMW} requires to commit to all vertices with a one-way function, and repeat this and other operations a number of times quadratic in the number of vertices.
+We stress that while this approach gives a feasibility result in theory,  it would not be practical: the 3-coloring problem obtained by translating any one of the relations of the introduction will be huge, and the zero-knowledge protocol for 3-coloring provided in~\cite{GMW} requires to commit to all vertices with a one-way function and repeat this and other operations a number of times quadratic in the number of vertices.
 
-The research on more efficient generic ZK proof systems has been extremely active lately, producing several systems capable of proving real-world sized statements.
-However these tend to be based on stronger assumptions than the existence of one-way functions, such as the Random Oracle Model. %, and those that are quantum-secure are still relatively experimental.
+The research on more efficient generic ZK-proof systems has been extremely active lately, producing several systems capable of proving real-world-sized statements.
+However, these tend to be based on stronger assumptions than the existence of one-way functions, such as the Random Oracle Model. %, and those that are quantum-secure are still relatively experimental.
 
-In the context of proving knowledge of isogenies, generic proof systems have so far only been applied in~\cite{10.1007/978-3-030-99277-4_21}, with the goal of defining \emph{Verifiable Delay Functions} (VDF).
-We are not really interested in the application here, but we nevertheless quickly summarize the main techniques of~\cite{10.1007/978-3-030-99277-4_21}, as they may be useful in other contexts.
+In the context of proving knowledge of isogenies, generic proof systems were first applied in~\cite{10.1007/978-3-030-99277-4_21}, with the goal of defining \emph{Verifiable Delay Functions} (VDF).
+We don't cover VDFs in this article, but we nevertheless quickly summarize the main techniques of~\cite{10.1007/978-3-030-99277-4_21}, as they may be useful in other contexts.
 
-The \emph{classic modular polynomial} $\Phi_\ell$ is a bivariate polynomial with integer coefficients such that $\Phi_\ell(j, j') = 0$ if and only if there exists an isogeny of degree $\ell$ between the curves of $j$-invariant $j$ and $j'$.
+Let $\ell$ be prime.
+The \emph{classic modular polynomial} $\Phi_\ell$ is a bivariate polynomial with integer coefficients such that $\Phi_\ell(j, j') = 0$ if and only if there exists an isogeny of degree $\ell$ between curves of $j$-invariant $j$ and $j'$.
 The degree and the size of the coefficients of $\Phi_\ell$ grow polynomially in $\ell$, thus it cannot be used to decide whether two curves are $\ell$-isogenous when $\ell$ grows exponentially large.
-However the typical case we encounter in cryptography is when two curves are $d$-isogenous with $d$ being smooth.
+However, the typical case we encounter in cryptography is when two curves are $d$-isogenous with $d$ being smooth.
 Thus, the isogeny of degree $d$ can be written as a composition of isogenies $E_0 \to E_1 \to \cdots \to E_n$ of degrees $\ell_1, \ldots, \ell_n$.
 Since the $\ell_i$ are polynomially small, from the sequence of $j$-invariants one can extract the isogenies $E_i \to E_{i+1}$ efficiently. Hence, proving knowledge of an isogeny $E_0 \to E_n$ of degree $d$ is equivalent to proving knowledge of $j_0, j_1, \ldots, j_n$ such that
 \begin{equation}
@@ -345,28 +347,29 @@ Finally, Eq.~\eqref{eq:modpol} is equivalent to
 \end{equation}
 
 To convince the verifier, the prover commits to the polynomial in the left-hand side above.
-The receiver responds with a random \emph{weighting polynomial} $w(x,y)$, and the prover uses the Checksum protocol to prove that
+The receiver responds with a random \emph{weighting polynomial} $w(x,y)$, and the prover uses the Sumcheck protocol to prove that
 \begin{equation}
     \sum_{\vec{x}\in\{0,1\}^s} \sum_{\vec{y}\in\{0,1\}^s}
     w(\vec{x}, \vec{y}) \cdot \Phi_\ell\bigl(j(\vec{x}), j(\vec{y})\bigr) \cdot L(\vec{x}, \vec{y}) = 0.
 \end{equation}
 The fact that $w(x,y)$ was chosen randomly after the prover had committed to $\Phi_\ell(j(x),j(y)) \cdot L(x,y)$ is enough to convince the verifier that Eq.~\eqref{eq:sumcheck} holds.
 
-The actual protocol in~\cite{10.1007/978-3-030-99277-4_21} is slightly more involved, because it also convinces the verifier that the sequence of $j$-invariants is chosen pseudo-randomly from a seed.
+The actual protocol in~\cite{10.1007/978-3-030-99277-4_21} is slightly more involved because it also convinces the verifier that the sequence of $j$-invariants is chosen pseudo-randomly from a seed.
 Their main motivation is to have a verifier that only takes $O(\log(n))$ time to verify, thus their last step is converting the Sumcheck to a SNARG~\cite{10.1137/S0097539795284959}.
 
 So far, we have only achieved soundness: the only difference between this protocol and simply handing the list $j_0,\ldots,j_n$ to the verifier is the better asymptotic complexity of verification.
 Adding zero-knowledge to a Sumcheck protocol can be done in a standard way using \emph{polynomial commitments}~\cite{10.1007/978-3-642-17373-8_11}, but this step is not analyzed
 in~\cite{10.1007/978-3-030-99277-4_21} because VDFs do not require it.
 
-The concrete cost of the non-ZK protocol above is not analyzed in~\cite{10.1007/978-3-030-99277-4_21}, and adding post-quantum polynomial commitments to it is likely not cheap.
-It is an interesting question to analyze the actual cost of proving knowledge of an isogeny in ZK using a Sumcheck protocol.
-It is equally interesting to explore the application of other generic proof systems to isogenies.
+The concrete cost of the non-ZK protocol above is not analyzed in~\cite{10.1007/978-3-030-99277-4_21}.
+Recent work by Cong, Lai, and Levin~\cite{CLL23} shows how to express the conditions in equation~(\ref{eq:modpol}) as a rank-1 constraint system (R1CS). They then show how existing proof systems for R1CS can be applied, and give implementation results. Such systems give statistical zero-knowledge and are post-quantum secure.
+Very practical results are obtained from using the Aurora system of Ben-Sasson et al~\cite{Aurora}.
+
 
 
 \subsection{GMW protocol for graph isomorphism \label{sec:GMW}}
 
-All existing zero-knowledge proofs of knowledge of an isogeny can be seen as variations of the classical~\cite{GMW} sigma protocol that proves knowledge of a graph isomorphism, i.e., a relabeling of the vertices that turns one graph into another one (see \cref{fig:graph_iso}). 
+Apart from the generic techniques in the previous section, all existing zero-knowledge proofs of knowledge of an isogeny can be seen as variations of the classical~\cite{GMW} sigma protocol that proves knowledge of a graph isomorphism, i.e., a relabeling of the vertices that turns one graph into another one (see \cref{fig:graph_iso}). 
 (Do not confuse the graphs in this analogy with isogeny graphs; the graphs are replaced with elliptic curves and the graph isomorphisms are replaced by isogenies.)
 More precisely, this is a sigma protocol for the relation \[
 \Rela = \left \{ ((G,H),\phi) \mid \phi \text{ is a graph isomorphism from $G$ to $H$} \right \} \,.
@@ -419,7 +422,7 @@ It is relatively straightforward to check that this protocol satisfies the compl
 
 \subsection{Non-interactive ZK and signatures}
 
-Sigma protocols are interactive protocols between a prover and a verifier, and an important feature of them is that the challenge is chosen by the verifier after the commitment has been sent. In many applications it is inconvenient to work with interactive protocols and so we want non-interactive versions of these.
+Sigma protocols are interactive protocols between a prover and a verifier, and an important feature of them is that the challenge is chosen by the verifier after the commitment has been sent. In many applications, it is inconvenient to work with interactive protocols and so we want non-interactive versions of these.
 One important application of non-interactive sigma protocols for hard relations is the construction of digital signatures that are existentially unforgeable under adaptive chosen-message attacks.
 
 The best-known approach to making sigma protocol non-interactive is the Fiat-Shamir heuristic.
@@ -428,11 +431,11 @@ The basic idea of the Fiat-Shamir transform is to use a cryptographic hash funct
 In the context of digital signatures, the Fiat-Shamir transform is as follows.
 The public key of the signature scheme is an instance $x$ for a hard relation, and the secret key is a witness $w$ for the relation. To sign a message $m$, the prover runs the sigma protocol, except that it replaces the challenge by the hash value $\chall = H(m,x,\com)$, where $m$ is the message to sign.
 A signature then consists of the commitment and response messages. To verify a signature, one simply recomputes the hash value and runs the verification algorithm for the sigma protocol. Intuitively, this is secure because the security properties of the hash function force the challenge to be a randomly distributed value generated after the commitment, as in the normal execution of the sigma protocol.
-The $n$-special soundness of the sigma protocol provides an extractor that, by re-winding a forger in the random oracle model, allows to compute a witness from the signatures output by the forger.
+The $n$-special soundness of the sigma protocol provides an extractor that, by re-winding a forger in the random oracle model, allows to compute a witness from the signatures which are output by the forger.
 The zero-knowledge property of the sigma protocol provides a simulator that allows to generate signatures in the random oracle model on messages queried by the forger to the signing oracle. Hence we have security against chosen message attacks.
 
 
-In the context of post-quantum cryptography, the random oracle model must be replaced by the {quantum} random oracle model. 
+In the context of post-quantum cryptography, the random oracle model should be replaced by the {quantum} random oracle model. 
 %
 Fiat-Shamir signatures have also been proven secure in this model under certain conditions~\cite{KLS18}, and otherwise the Unruh transform offers an alternative, albeit less efficient construction~\cite{Unruh15}. 
 %\develop{Check, add reference, comment on FS security for the signature schemes discussed here}
@@ -471,11 +474,11 @@ Precisely, computational ZK requires computational indistinguishability for ever
 
 We have explained that proving knowledge of an isogeny is an important problem with several strong motivations in post-quantum cryptography.
 %
-We have given a number of sigma protocols for different relations and contexts. Generally the case of group actions is simpler than the more general isogeny problems.
+We have given a number of sigma protocols for different relations and contexts. Generally, the case of group actions is simpler than the more general isogeny problems.
 %and the SIDH problems. The SIDH case is quite complicated due to the necessity to work with auxiliary points.
 
 One of the biggest open problems in this area is to develop more efficient protocols by lowering the soundness error.
-In the CSIDH setting we have signature schemes that have improved soundness error, but those approaches do not solve the problem for the original relation $\R[isog]$ we are interested in.
+In the CSIDH setting, we have signature schemes that have improved soundness error, but those approaches do not solve the problem for the original relation $\R[isog]$ we are interested in.
 %In SIDH we do not have any protocol with soundness error strictly less than $ 1/2$.
 The only example of a protocol with negligible soundness error for a single round is SQISign.
 Any progress on reducing the soundness error would have major implications on the efficiency of isogeny signatures.

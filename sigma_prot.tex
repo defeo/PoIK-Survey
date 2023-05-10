@@ -14,7 +14,7 @@ We say $\Sigma = (P_1,P_2,V_2)$ is a sigma protocol with challenge space $\CC$, 
 \begin{itemize}
     \item {\bf Three-round public coin.} The prover $\PP$ starts the protocol by generating a first message $\com \gets P_1(x,w)$ (often called a commitment), and sending it to the verifier $\VV$. Then, the verifier chooses a challenge $\chall \gets \CC$ uniformly at random from the challenge space $\CC$, and sends it to $\PP$. Finally, $\PP$ computes a response $\resp \gets P_2(\chall)$ ($P_1$ and $P_2$ share a state) and sends it to $\VV$, who runs the verification algorithm $V_2(x,\com,\chall,\resp)$, which outputs $1$ or $0$, signalling that $\VV$ accepts or rejects the proof respectively. (See \cref{fig:sigmaprotocol})
     
-    \item {\bf Completeness/correctness.} The completeness (sometimes called correctness) property says that if both parties follow the protocol, and if the prover uses a valid witness $w$ such that $(x,w) \in \Rela$, then the verifier will accept the proof with probability 1. I.e., for all $(x,w) \in \Rela$, we have \[
+    \item {\bf Completeness/correctness.} The completeness (sometimes called correctness) property says that if both parties follow the protocol, and if the prover uses a valid witness $w$ such that $(x,w) \in \Rela$, then the verifier will accept the proof with probability 1. In other words, for all $(x,w) \in \Rela$, we have \[
 \Pr \left[ V_2(x,\com,\chall,\resp) = 1 \middle| \begin{array}{l} \com \gets P_1(x,w) \\ \chall \gets \CC \\ \resp \gets P_2(\chall) \end{array} \right] = 1 \, . 
 \]
 

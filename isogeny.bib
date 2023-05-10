@@ -181,17 +181,6 @@ pages="395--427",
 
 
 
-@article{cryptoeprint:2017:774,
-  author    = {Steven D. Galbraith and
-               Frederik Vercauteren},
-  title     = {Computational problems in supersingular elliptic curve isogenies},
-  journal   = {Quantum Inf. Process.},
-  volume    = {17},
-  number    = {10},
-  pages     = {265},
-  year      = {2018}
-}
-
 @article{GV18,
   title={Computational problems in supersingular elliptic curve isogenies},
   author={Galbraith, Steven D. and Vercauteren, Frederik},
@@ -317,18 +306,6 @@ subexponential time},
   Bibsource                = {DBLP, http://dblp.uni-trier.de},
   Crossref                 = {DBLP:conf/ants/2010},
   Ee                       = {http://dx.doi.org/10.1007/978-3-642-14518-6_19}
-}
-
-
-@article{UJ20,
-  title={New techniques for {SIDH}-based {NIKE}},
-  author={Urbanik, David and Jao, David},
-  journal={Journal of Mathematical Cryptology},
-  volume={14},
-  number={1},
-  pages={120--128},
-  year={2020},
-  publisher={De Gruyter}
 }
 
 
@@ -526,16 +503,27 @@ MRREVIEWER = {Vasil\cprime  \={I}. Andr\={\i}\u{\i}chuk},
 
 
 
-@article{DFDGZ21,
+@inproceedings{DFDGZ21,
   author    = {De Feo, Luca and
                Samuel Dobson and
                Steven D. Galbraith and
                Lukas Zobernig},
-  title     = {{SIDH} Proof of Knowledge},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
-  pages     = {1023},
-  year      = {2021}
+  editor       = {Shweta Agrawal and
+                  Dongdai Lin},
+  title        = {{SIDH} Proof of Knowledge},
+  booktitle    = {{ASIACRYPT} 2022, Proceedings, Part {II}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {13792},
+  pages        = {310--339},
+  publisher    = {Springer},
+  year         = {2022},
+  url          = {https://doi.org/10.1007/978-3-031-22966-4\_11},
+  doi          = {10.1007/978-3-031-22966-4\_11},
+  timestamp    = {Fri, 10 Feb 2023 23:35:07 +0100},
+  biburl       = {https://dblp.org/rec/conf/asiacrypt/FeoDGZ22.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
 }
+
 
 
 
@@ -630,19 +618,20 @@ year = 2008
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
 
-@article{SQIsign2.0,
-  author    = {De Feo, Luca and
-               Antonin Leroux and
-	       Patrick Longa and
-               Benjamin Wesolowski},
-  title     = {New algorithms for the {Deuring} correspondence: Towards practical and secure {SQISign} signatures},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
-  pages     = {234},
-  year      = {2022},
-  url       = {https://eprint.iacr.org/2022/234},
-  timestamp = {Tue, 22 Mar 2022 16:32:05 +0100},
-  biburl    = {https://dblp.org/rec/journals/iacr/FeoLW22.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{SQIsign2.0,
+  author       = {De Feo, Luca and
+                  Antonin Leroux and
+                  Patrick Longa and
+                  Benjamin Wesolowski},
+  editor       = {Carmit Hazay and
+                  Martijn Stam},
+  title        = {New Algorithms for the {D}euring Correspondence - Towards Practical and Secure {SQISign} Signatures},
+  booktitle    = {{EUROCRYPT} 2023 Proceedings, Part {V}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {14008},
+  pages        = {659--690},
+  publisher    = {Springer},
+  year         = {2023}
 }
 
 @article{GMW,
@@ -871,47 +860,52 @@ isbn="978-3-642-17373-8"
 }
 
 
-@article{CD22,
-  author    = {Wouter Castryck and
-               Thomas Decru},
-  title     = {An efficient key recovery attack on {SIDH} (preliminary version)},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
-  pages     = {975},
-  year      = {2022},
-  url       = {https://eprint.iacr.org/2022/975},
-  timestamp = {Tue, 27 Sep 2022 16:44:22 +0200},
-  biburl    = {https://dblp.org/rec/journals/iacr/CastryckD22.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{CD22,
+author = {Wouter Castryck and Thomas Decru},
+title="An Efficient Key Recovery Attack on {SIDH}",
+pages="423--447",
+editor="Hazay, Carmit and Stam, Martijn",
+booktitle="EUROCRYPT 2023",
+year="2023",
+publisher="Springer",
+series="Lecture Notes in Computer Science",
+volume=14008,
+address="Cham"
 }
 
 
 
 
-@article{MM22,
-  author    = {Luciano Maino and
-               Chloe Martindale},
-  title     = {An attack on {SIDH} with arbitrary starting curve},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
-  pages     = {1026},
-  year      = {2022},
-  url       = {https://eprint.iacr.org/2022/1026},
-  timestamp = {Tue, 27 Sep 2022 16:44:22 +0200},
-  biburl    = {https://dblp.org/rec/journals/iacr/MainoM22.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{MM22,
+author="Maino, Luciano
+and Martindale, Chloe
+and Panny, Lorenz
+and Pope, Giacomo
+and Wesolowski, Benjamin",
+title="A Direct Key Recovery Attack on {SIDH}",
+editor="Hazay, Carmit and Stam, Martijn",
+booktitle="EUROCRYPT 2023",
+year="2023",
+publisher="Springer",
+series="Lecture Notes in Computer Science",
+volume=14008,
+address="Cham",
+pages="448--471"
 }
 
 
 
-@article{Rob22,
-  author    = {Damien Robert},
-  title     = {Breaking {SIDH} in polynomial time},
-  journal   = {{IACR} Cryptol. ePrint Arch.},
-  pages     = {1038},
-  year      = {2022},
-  url       = {https://eprint.iacr.org/2022/1038},
-  timestamp = {Wed, 16 Nov 2022 14:48:22 +0100},
-  biburl    = {https://dblp.org/rec/journals/iacr/Robert22.bib},
-  bibsource = {dblp computer science bibliography, https://dblp.org}
+@inproceedings{Rob22,
+author="Robert, Damien",
+title="Breaking {SIDH} in Polynomial Time",
+editor="Hazay, Carmit and Stam, Martijn",
+booktitle="EUROCRYPT 2023",
+year="2023",
+publisher="Springer",
+series="Lecture Notes in Computer Science",
+volume=14008,
+address="Cham",
+pages="472--503"
 }
 
 @article{velusqrt,
@@ -970,12 +964,16 @@ isbn="978-3-540-71677-8"
     isbn = {978-3-030-95312-6}
 }
 
-@misc{cryptoeprint:2022/1469,
+@inproceedings{cryptoeprint:2022/1469,
       author = {Andrea Basso and Giulio Codogni and Deirdre Connolly and De Feo, Luca and Tako Boris Fouotsa and Lido, Guido Maria and Travis Morrison and Lorenz Panny and Sikhar Patranabis and Benjamin Wesolowski},
       title = {Supersingular Curves You Can Trust},
-      howpublished = {Cryptology ePrint Archive, Paper 2022/1469},
-      year = {2022},
-      url = {https://eprint.iacr.org/2022/1469}
+      editor="Hazay, Carmit and Stam, Martijn",
+booktitle="EUROCRYPT 2023",
+year="2023",
+publisher="Springer",
+series="Lecture Notes in Computer Science",
+volume = 14005,
+pages = {405-437}
 }
 
 
@@ -987,10 +985,90 @@ volume = 288,
 year = {2021}
 }
 
-@misc{cryptoeprint:2023/013,
-      author = {Fouotsa, Tako Boris and Tomoki Moriya and Christophe Petit},
-      title = {{M-SIDH} and {MD-SIDH:} countering {SIDH} attacks by masking information},
-      howpublished = {Cryptology ePrint Archive, Paper 2023/013},
-      year = {2023},
-      url = {https://eprint.iacr.org/2023/013}
+@inproceedings{cryptoeprint:2023/013,
+ author="Fouotsa, Tako Boris
+and Moriya, Tomoki
+and Petit, Christophe",
+editor="Hazay, Carmit
+and Stam, Martijn",
+title="{M-SIDH} and {MD-SIDH}: {C}ountering {SIDH} Attacks by Masking Information",
+pages="282--309",
+booktitle="EUROCRYPT 2023",
+year="2023",
+publisher="Springer",
+series="Lecture Notes in Computer Science",
+volume=14008,
+address="Cham"
+}
+
+
+@inproceedings{DFKS18,
+  author    = {De Feo, Luca and
+               Jean Kieffer and
+               Benjamin Smith},
+  editor    = {Thomas Peyrin and
+               Steven D. Galbraith},
+  title     = {Towards Practical Key Exchange from Ordinary Isogeny Graphs},
+  booktitle = {Advances in Cryptology - {ASIACRYPT} 2018 - 24th International Conference
+               on the Theory and Application of Cryptology and Information Security,
+               Brisbane, QLD, Australia, December 2-6, 2018, Proceedings, Part {III}},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {11274},
+  pages     = {365--394},
+  publisher = {Springer},
+  year      = {2018},
+  url       = {https://doi.org/10.1007/978-3-030-03332-3\_14},
+  doi       = {10.1007/978-3-030-03332-3\_14},
+  timestamp = {Fri, 27 Aug 2021 13:41:11 +0200},
+  biburl    = {https://dblp.org/rec/conf/asiacrypt/FeoKS18.bib},
+  bibsource = {dblp computer science bibliography, https://dblp.org}
+}
+
+
+@inproceedings{CLL23,
+author = {Kelong Cong and Yi-Fu Lai and Shai Levin},
+title = {Efficient Isogeny Proofs Using Generic Techniques},
+booktitle = {ACNS 2023},
+publisher = {Springer, eprint 2023/037},
+editor={Mehdi Tibouchi and Xiaofeng Wang},
+series = {LNCS},
+volume = {??},
+pages = {??},
+year = 2023
+}
+
+
+
+
+
+@inproceedings{Aurora,
+  author       = {Eli Ben{-}Sasson and
+                  Alessandro Chiesa and
+                  Michael Riabzev and
+                  Nicholas Spooner and
+                  Madars Virza and
+                  Nicholas P. Ward},
+  editor       = {Yuval Ishai and
+                  Vincent Rijmen},
+  title        = {Aurora: Transparent Succinct Arguments for {R1CS}},
+  booktitle    = {Advances in Cryptology - {EUROCRYPT} 2019 - 38th Annual International
+                  Conference on the Theory and Applications of Cryptographic Techniques,
+                  Darmstadt, Germany, May 19-23, 2019, Proceedings, Part {I}},
+  series       = {Lecture Notes in Computer Science},
+  volume       = {11476},
+  pages        = {103--128},
+  publisher    = {Springer},
+  year         = {2019},
+  url          = {https://doi.org/10.1007/978-3-030-17653-2\_4},
+  doi          = {10.1007/978-3-030-17653-2\_4},
+  timestamp    = {Sun, 25 Oct 2020 22:43:16 +0100},
+  biburl       = {https://dblp.org/rec/conf/eurocrypt/Ben-SassonCRSVW19.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+
+@misc{Bas23,
+author={Andrea Basso},
+title = {A Post-Quantum Round-Optimal Oblivious PRF from Isogenies},
+howpublished = {eprint 2023/225},
+year = 2023
 }

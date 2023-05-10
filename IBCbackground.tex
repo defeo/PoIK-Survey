@@ -13,7 +13,6 @@ We sometimes write $E_2 = E_1 / G$. %\CP{can work with smaller extension fields 
 
 The degree of an isogeny is its degree as a morphism of curves (see Section II.2 of Silverman~\cite{Silverman} or Section 12.2 of Washington~\cite{Was08}).
 A separable isogeny with kernel $G$ has degree equal to $\#G$.
-
 If $\phi_1 : E_1 \rightarrow E_2$
 and $\phi_2 : E_2 \rightarrow E_3$ are isogenies then
 $\deg( \phi_2 \circ \phi_1 ) = \deg( \phi_2 ) \deg( \phi_1 )$.
@@ -22,7 +21,7 @@ $\deg( \phi_2 \circ \phi_1 ) = \deg( \phi_2 ) \deg( \phi_1 )$.
 
 \begin{theorem} 
 (Corollary III.4.11 of \cite{Silverman}; Theorem 9.6.18 of \cite{Gal12})
-Let $E_1, E_2, E_3$ be elliptic curves over $\F_q$
+Let $E_1$, $E_2, E_3$ be elliptic curves over $\F_q$
 and $\phi : E_1 \rightarrow E_2$, $\psi : E_1 \rightarrow E_3$
 isogenies over $\F_q$. Suppose $\ker(\phi) \subseteq \ker( \psi )$ and
 that $\psi$ is separable.
@@ -32,21 +31,21 @@ defined over $\F_q$ such that $\psi = \lambda \circ \phi$.
 
 The above facts show that an isogeny $\phi_1 : E_1 \rightarrow E_2$ of composite degree can always be factored as the composition of isogenies of prime degree (see Theorem 25.1.2 of \cite{Gal12}). In many applications, this is the most efficient way to represent and compute an isogeny.
 
-Isogenies are naturally represented as rational maps between concrete models of elliptic curves; however for large degree isogenies this representation may not be efficient. When the degree is a smooth number one can instead represent the large degree isogeny as a composition of low degree isogenies.
-Alternatively, such an isogeny can be represented by a sequence of $j$-invariants that are the codomains of the successive (low degree) isogeny steps. 
+Isogenies are naturally represented as rational maps between concrete models of elliptic curves; however for large-degree isogenies this representation may not be efficient. When the degree is a smooth number one can instead represent the large degree isogeny as a composition of low degree isogenies.
+Alternatively, such an isogeny can be represented by a sequence of $j$-invariants that are the codomains of the successive (low-degree) isogeny steps. 
 %
 Any isogeny can also alternatively be represented by its kernel, or more precisely a kernel generator. 
 %
 
-While computing a rational map representation of an isogeny of prime degree $\ell$ requires $O(\ell)$ time just to write the output, evaluating this isogeny on a domain point  can be done more efficiently with the so-called ``square root Vélu'' formulae~\cite{velusqrt}. %\WB{Reviewer suggests adding a reference to sqrt velu}\CP{done}
+While computing a rational map representation of an isogeny of prime degree $\ell$ requires $O(\ell)$ time just to write the output, evaluating this isogeny on a domain point can be done more efficiently with the so-called ``square root Vélu'' formulae~\cite{velusqrt}. %\WB{Reviewer suggests adding a reference to sqrt velu}\CP{done}
 
 
 
-We denote by $\# E( \F_q )$ the number of points on an elliptic curve $E$ (including $\PO$).
+We denote by $\# E( \F_q )$ the number of points on an elliptic curve $E$ defined over $\F_q$ (including $\PO$).
 The Tate isogeny theorem  states that if $E_1$ and $E_2$ are elliptic curves over $\F_q$ with $\#E_1(\F_q) = \#E_2(\F_q)$ then there is an isogeny $\phi_1 : E_1 \rightarrow E_2$ defined over $\F_q$.
 
 
-Setting $t = q + 1 - \#E(\F_q )$, then $|t| \le 2 \sqrt{q}$.
+If $t = q + 1 - \#E(\F_q )$, then $|t| \le 2 \sqrt{q}$.
 An elliptic curve is called \emph{supersingular} if $p \mid t$, where $q$ is a power of the prime $p$, and is called \emph{ordinary} otherwise.
 It follows that $E$ is supersingular if $\#E(\F_q ) \equiv 1 \pmod{p} $, and in fact for supersingular curves one has $\#E( \F_{q^n}) \equiv 1 \pmod{p}$ for all $n \in \N$.
 
@@ -56,7 +55,7 @@ It follows that $E$ is supersingular if $\#E(\F_q ) \equiv 1 \pmod{p} $, and in 
 
 
 
-The endomorphism ring of $E$ (see Section III.9 of Silverman~\cite{Silverman}) is the set of isogenies  from $E$ to itself, together with the zero map $[0] : E \to E$ given by $[0](P) = \PO$.
+The endomorphism ring of $E$ (see Section III.9 of Silverman~\cite{Silverman}) is the set of isogenies from $E$ to itself, together with the zero map $[0] : E \to E$ given by $[0](P) = \PO$.
 In other words
 \[
    \End(E)  = \{ \phi : E \to E \} \cup \{ [0] \}.
@@ -70,10 +69,10 @@ When $E$ is ordinary the situation is much simpler, as $\End(E)$ is an order in 
 
 Our main focus in this survey is supersingular curves, as they are the ones currently used in cryptographic applications.
 
-For any supersingular elliptic curve $E$ in characteristic $p$ and any prime $\ell \ne p$, there are exactly $\ell+1$ isogenies of degree $\ell$ with $E$ as their domain. 
+For any supersingular elliptic curve $E$ in characteristic $p$ and any prime $\ell \ne p$, there are exactly $\ell+1$ isogenies of degree $\ell$ with $E$ as their domain (up to isomorphisms of the co-domain curves). 
 %\LDF{This sentence doesn't match quite well the ordinary / CSIDH case.}\SG{No. But it says supersingular.}
 %
-To any prime numbers $p$ and $\ell$, one can associate a \emph{supersingular isogeny graph} where each vertex corresponds to a supersingular curve (up to isomorphism) and each edge to an isogeny of degree $\ell$ between the corresponding curves. This is an $\ell+1$ regular graph, and it is undirected except, at most, at two exceptional points.
+To any prime numbers $p$ and $\ell$, one can associate a \emph{supersingular isogeny graph} where each vertex corresponds to a supersingular curve (up to isomorphism) and each edge to an isogeny of degree $\ell$ between the corresponding curves. Ignoring at most two exceptional points, this is an undirected $(\ell+1)$-regular graph.
 %
 In the supersingular case, the graph is Ramanujan, meaning it has optimal expansion properties (see Section 4 of~\cite{CGL}). The expansion properties imply that any two curves are connected by a path of length  $O(\log p)$, and that random walks on the graph quickly converge to the uniform distribution (apart from at most 2 special vertices).
 %
@@ -88,12 +87,12 @@ All supersingular curves are defined over $\mathbb{F}_{p^2}$.
 Given two elliptic curves $(E_0, E_1 )$ over $
 \F_q$ that are isogenous over $\F_q$, there are infinitely many isogenies between them.
 %\develop{The set of all isogenies from $E_0$ to $E_1$: Size and structure.}
-In the ordinary case, where for simplicity we assume both curves have endomorphism ring being the maximal order in the imaginary quadratic field, the set of isogenies from $E_0$ to $E_1$ corresponds to an ideal class. In the supersingular case the set of isogenies from $E_0$ to $E_1$ corresponds to a rank 4 $\Z$-module in a quaternion algebra.
+In the ordinary case, where for simplicity we assume that the endomorphism ring of both curves is the maximal order in the imaginary quadratic field, the set of isogenies from $E_0$ to $E_1$ corresponds to an ideal class. In the supersingular case the set of isogenies from $E_0$ to $E_1$ corresponds to a rank-4 $\Z$-module in a quaternion algebra.
 
 
 When the endomorphism ring of an elliptic curve is known, one may instead represent an isogeny from that curve in terms of a module in the endomorphism ring, namely an ideal of a quadratic imaginary number field in the ordinary case, and a (left or right) ideal of a maximal order in a quaternion algebra in the supersingular case.
 %
-Modulo some restrictions on parameters (smooth or power-smooth norms, degree and orders), one can transform this representation into the other standard representations (sequences of $j$-invariants, or kernel generators) in polynomial-time, and vice versa.
+Modulo some restrictions on parameters (such as requiring smooth or power-smooth norms for ideals, and working with special orders), one can transform this representation into the other standard representations (sequences of $j$-invariants, or kernel generators) in polynomial-time, and vice versa. We give further details in Section~\ref{sec:KLPT}.
 
 
 %\develop{How isogenies are represented:
@@ -120,7 +119,7 @@ For efficiency, SIDH restricts to pairs of isogenies of degree $2^{n}$ and $3^{m
 %
 Given such a prime, there exists over $\F_{p^2}$ an isogeny class of supersingular curves with group structure
 \[
-   E(\F_{p^2}) \simeq (\Z /(p + 1)\Z)^2 \simeq (\Z /2^n\Z)^2 \times (\Z / 3^m \Z)^2 \times (\Z / f \Z)^2.
+   E(\F_{p^2}) \cong (\Z /(p + 1)\Z)^2 \cong (\Z /2^n\Z)^2 \times (\Z / 3^m \Z)^2 \times (\Z / f \Z)^2.
 \]
 Let $E$ be one such curve. For example, choose the curve $y^2 = x^3 + x$ of $j$-invariant $1728$, which is always supersingular modulo  $p \equiv 3 \pmod{4}$. Furthermore, $\End(E)$ is known for this curve.
 
@@ -141,7 +140,7 @@ The ``SIDH square'' on $(A,B)$ is the commutative diagram
     (E2) edge node[above] {$\phi_A'$} (E3);
     }
 \end{equation}
-where $\ker(\psi_B')  = \phi_A(B)$ and $\ker( \phi_A' ) = \psi_B(A)$.
+where $\ker(\psi_B')  = \phi_A(B)$,  $\ker( \phi_A' ) = \psi_B(A)$, and $\langle A, B\rangle$ denotes the group generated by $A$ and $B$.
 %
 We say that $(\phi_A,\phi_A')$ (and $(\psi_B,\psi_B')$) are ``parallel'' isogenies.
 
@@ -162,7 +161,7 @@ Given generators for $A$ and $B$, the curves $E/A$ and $E/B$ can be efficiently 
 The bottom-right curve $E/\langle A,B\rangle$ can then be computed in two ways as
 \begin{equation}
   \label{eq:sidh-push}
-  (E/A)/\phi_A(B) \;\simeq\; E/\langle A,B\rangle \;\simeq\; (E/B)/\psi_B(A).
+  (E/A)/\phi_A(B) \;\cong\; E/\langle A,B\rangle \;\cong\; (E/B)/\psi_B(A).
 \end{equation}
 This is as much as we need for defining proofs of knowledge of isogenies.
 % For SIDH, read on.
@@ -172,11 +171,11 @@ This is as much as we need for defining proofs of knowledge of isogenies.
 
 \paragraph{Other base fields.}
 The setup we presented above is the most common and the most efficient one for SIDH-like proofs of knowledge.
-However the paper that introduced SIDH also considered primes of the form $p = \ell_A^n \ell_B^m f \pm 1$ for any small primes $\ell_A,\ell_B$.
+However, the paper that introduced SIDH also considered primes of the form $p = \ell_A^n \ell_B^m f \pm 1$ for any small primes $\ell_A,\ell_B$.
 A variant named B-SIDH~\cite{10.1007/978-3-030-64834-3_15} used primes such that $p^2 - 1 = Nf$, where $N$ is a sufficiently large smooth integer.
 Finally, variants of the SIDH key exchange designed to resist the recent attacks consider $p = 4N - 1$, where $N$ is a product of sufficiently many distinct small primes~\cite{cryptoeprint:2023/013}.
-In this work we will focus on the basic SIDH case, but the ideas are easily generalized to all other settings.
-Ultimately we will see in Section~\ref{sec:from-comp-stat} that, when efficiency is not a concern, SIDH-like commutative squares can be constructed in any characteristic.
+In this work, we will focus on the basic SIDH case, but the ideas are easily generalized to all other settings.
+Ultimately we will see in Section~\ref{sec:from-comp-stat} that, with some loss of efficiency, SIDH-like commutative squares can be constructed in any characteristic.
 
 %\subsubsection{Adaptive attacks against SIDH.}
 %Some uses of SIDH require security not only against passive, but also active adversaries.
@@ -218,25 +217,25 @@ Ultimately we will see in Section~\ref{sec:from-comp-stat} that, when efficiency
 
 %\CP{use group action formalism instead, with CSIDH as a special case (modulo technical details)?}
 
-Commutative Supersingular Isogeny Diffie-Hellman (CSIDH)~\cite{CSIDH} was proposed by Castryck, Lange, Martindale, Panny, and Renes. It is an example of a cryptographic group action, and it builds on ideas of Couveignes~\cite{Couv06}, and Rostovtsev and Stolbunov~\cite{RosSto}.
+Commutative Supersingular Isogeny Diffie-Hellman (CSIDH)~\cite{CSIDH} was proposed by Castryck, Lange, Martindale, Panny, and Renes. It is an example of a cryptographic group action, and it builds on ideas of Couveignes~\cite{Couv06}, Rostovtsev and Stolbunov~\cite{RosSto}, and  De Feo, Kieffer and Smith~\cite{DFKS18}.
 Let $G$ be a finite abelian group and $X$ a set of size $|X|=|G|$. The group $G$ acts on $X$ if there is a binary operation $G \times X \to X$ which we write as $(g,x) \mapsto g*x$. We require $g*( g'*x) = (gg')*x$ for all $g, g' \in G$ and $x \in X$.
 
-In the case of CSIDH, the group $G$ is the ideal class group of the order $\OO = \Z[\sqrt{-p}]$ in  the imaginary quadratic field $\Q( \sqrt{-p} )$.
-The set $X$ is the set of isomorphism classes of elliptic  curves over $\F_p$ with endomorphism ring $\End(E) \cong \OO$, which are necessarily supersingular.
+In the case of CSIDH, the group $G$ is the ideal class group of the order $\OO = \Z[\sqrt{-p}]$ in the imaginary quadratic field $\Q( \sqrt{-p} )$.
+The set $X$ is the set of isomorphism classes of elliptic curves over $\F_p$ with endomorphism ring $\End(E) \cong \OO$, which are necessarily supersingular.
 Alternatively, one could work with supersingular curves whose $\Field_p$-endomorphism ring is $\mathbb{Z}[(1+\sqrt{-p})/2]$, see \cite{CD20}.
 
 
 The use of supersingular curves over $\F_p$ is for efficiency reasons.
 In fact, we choose the prime $p$ to have the special form $p = 4\ell_1 \cdots \ell_r -1$, for some integer $r$, where the $\ell_i$ are distinct small odd primes.
 Let $E_0/\F_p$ be the supersingular curve defined by $y^2 = x^3 + x$. 
-The endomorphism ring of $E_0$ is a maximal order in a quaternion algebra, but  the sub-ring of endomorphisms that are defined over $\F_p$ (we call this the $\F_p$-endomorphism ring) is isomorphic to a ring containing $\Z[\sqrt{-p}]$. 
+The endomorphism ring of $E_0$ is a maximal order in a quaternion algebra, but the sub-ring of endomorphisms that are defined over $\F_p$ (we call this the $\F_p$-endomorphism ring) is isomorphic to a ring containing $\Z[\sqrt{-p}]$. 
 It is known that the ideal class group of the $\F_p$-endomorphism ring acts on the set of supersingular elliptic curves defined over $\F_p$, where each ideal corresponds to an isogeny~\cite{Waterhouse}.
 
 We make the reasonable assumption that the class group $\cl(\mathbb{Z}[\sqrt{-p}])$ is generated by the $r$ ideals $\fl_i = (\ell_i, 1 + \sqrt{-p} )$ for $i$ from $1$ to $r$.
 The class group $\cl(\mathbb{Z}[\sqrt{-p}])$ acts freely and transitively on the set $\Ell$ of $\F_p$-isomorphism classes of elliptic curves with $\F_p$-endomorphism ring $\Z[\sqrt{-p}]$. We can efficiently compute the action of the ideal classes $\overline{\fl}_1,\cdots,\overline{\fl}_r,$ and their inverses.
 
 For a vector $\bx \in \mathbb{Z}^r$ and $E \in \Ell$ we define \[ [\bx]E := \left( \prod_{i=1}^r {\overline{\fl}_i}^{x_i} \right) \star E  \, , \] where $\star$ is the action of the ideal class group.
-This is known as the CSIDH action. 
+This is known as the \emph{CSIDH action}. 
 
 Technically, we have defined the infinite group $\Z^r$ to act on the finite set $\Ell$, which does not match our earlier definition of a group action.
 In fact, one can define a lattice
@@ -247,7 +246,9 @@ such that the class group $\cl( \Z[\sqrt{-p}])$ is isomorphic to $\Z^r/L$ and we
  
 
 
-We can now define the relation $\R$ as follows (we hope our choice of the symbol $\bx$ for the witness causes no confusion with the earlier convention of $x$ being the statement and $w$ being the witness) \LDF{why not use $\mathbf{w}$, then?}
+We can now define the relation $\R$ as
+%(we hope our choice of the symbol $\bx$ for the witness causes no confusion with the earlier convention of $x$ being the statement and $w$ being the witness)
+%\LDF{why not use $\mathbf{w}$, then?}
 \[
 \R[CSIDH] = \left\{ (E,\bx) \in \Ell \times \mathbb{Z}^r \,\, | \,\, [\bx]E_0 = E \right\} \,.
 \]
@@ -260,11 +261,11 @@ The CSIDH key exchange protocol works by Alice choosing random $\bx_A$ and sendi
 
 \subsection{Quaternion algorithms and the KLPT algorithm}\label{sec:KLPT}
 
-Kohel, Lauter, Petit and Tignol (KLPT)~\cite{KLPT} introduced important algorithmic ideas for computing with quaternion algebras and computing isogenies of smooth degree.
-We will not cover all the mathematics. Instead we sketch the basic functionalities provided by their work (and extended by other authors).
+Kohel, Lauter, Petit, and Tignol (KLPT)~\cite{KLPT} introduced important algorithmic ideas for computing with quaternion algebras and computing isogenies of smooth degree.
+We will not cover all the mathematics. Instead, we sketch the basic functionalities provided by their work (and extended by other authors).
 
-For this section we always assume $E_0$ is a very particular supersingular curve (namely, it is supersingular, defined over $\F_p$, and has a non-scalar endomorphism of very small degree).
-The canonical example is $y^2 = x^3 + x$, which has the non-trivial automorphism $\iota(x,y) = (-x,iy)$ where $i \in \F_{p^2}$ satisfies $i^2 = -1$.
+For this section, we always assume $E_0$ is a very particular supersingular curve (namely, it is supersingular, defined over $\F_p$, and has a non-scalar endomorphism of very small degree).
+The canonical example when $p \equiv 3 \pmod{4}$ is $y^2 = x^3 + x$, which has the non-trivial automorphism $\iota(x,y) = (-x,iy)$ where $i \in \F_{p^2}$ satisfies $i^2 = -1$.
 The $p$-power Frobenius map $\pi(x,y) = (x^p, y^p)$ satisfies $\pi \circ \iota = - \iota \circ \pi$ and $\pi^2 = [-p]$.
 It follows that $\End(E_0)$ contains a subring isomorphic to $\Z \oplus i\Z \oplus \sqrt{-p} \Z \oplus i \sqrt{-p}\Z $.
 The norm of an element $w + ix + \sqrt{-p}( y + iz)$ is $w^2 + x^2 + p( y^2 + z^2)$, and the KLPT algorithm heavily relies on norm forms that can be written as $Q(w,x) + p Q(y,z)$ where $Q$ is a binary quadratic form of small discriminant.
@@ -280,7 +281,7 @@ The KLPT algorithm allows to replace ideals by power-smooth degree ones in the s
 %
 More precisely, let $\OO_0$ be a maximal order in the quaternion algebra $B_{p,\infty}$ whose norm is of the form $Q(w,x) + p Q(y,z)$, and let $\OO_1$ be another maximal order.
 %
-The  KLPT algorithm takes as input a small prime $\ell$ and a sufficiently large integer $n > \tfrac{7}{2}\log_\ell( p)$, and returns an ideal $I$ of norm $\ell^n$ that is a left $\OO_0$-ideal and whose right order is isomorphic to $\OO_1$. 
+The  KLPT algorithm takes as input a small prime $\ell$ and a sufficiently large integer $n$ (the original KLPT paper requires $n > \tfrac{7}{2}\log_\ell( p)$), and returns an ideal $I$ of norm $\ell^n$ that is a left $\OO_0$-ideal and whose right order is isomorphic to $\OO_1$. 
 %
 The algorithm was adapted in~\cite{GPS20} to produce ideals of $B$-powersmooth norm (meaning the norm is of the form $N = \prod_i\ell_i^{e_i}$ where the $\ell_i$ are distinct primes and $\ell_i^{e_i} \le B$).
 One takes $B = c \log p $ for a suitable constant $c$.
